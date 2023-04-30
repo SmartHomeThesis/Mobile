@@ -2,7 +2,7 @@ import React from 'react';
 import {BarChart} from "react-native-chart-kit";
 import {Dimensions} from "react-native";
 
-const Electricity = () => {
+const Index = () => {
     const data = {
         labels: ["January", "February", "March", "April", "May", "June"],
         datasets: [
@@ -43,4 +43,4 @@ const Electricity = () => {
     )
 };
 
-export default Electricity;
+export default Index;

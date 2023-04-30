@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import { StyleSheet} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -6,7 +6,7 @@ import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
-import Setting from '../screens/Setting';
+import Analysis from '../screens/Analysis';
 import Dashboard from '../screens/Dashboard';
 import DetailDevice from '../screens/DetailDevice';
 
@@ -49,8 +49,8 @@ const BottomTab = () => {
             iconName = focused ? 'apps' : 'apps-outline';
           } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
-          } else if (route.name === 'Setting') {
-            iconName = focused ? 'settings' : 'settings-outline';
+          } else if (route.name === 'Analysis') {
+            iconName = focused ? 'stats-chart-sharp' : 'stats-chart-outline';
           }
 
           return <Ionicons name={iconName} size={22} color={color} />;
@@ -67,14 +67,12 @@ const BottomTab = () => {
       />
       <Tab.Screen name="Dashboard" component={Dashboard} />
       <Tab.Screen name="Profile" component={Profile} />
-      <Tab.Screen name="Setting" component={Setting} />
+      <Tab.Screen name="Analysis" component={Analysis} />
     </Tab.Navigator>
   );
 };
 const getTabBarVisibility = (route: any) => {
-  // console.log(route);
-  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
-  // console.log(routeName);
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed'  // console.log(routeName);
 
   if (routeName == 'DetailDevice') {
     return 'none';

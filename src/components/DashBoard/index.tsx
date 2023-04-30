@@ -31,18 +31,6 @@ const index = ({
       id: listDevice[0].id,
       status: listDevice[0].status,
     },
-    {
-      id: listDevice[1].id,
-      status: listDevice[1].status,
-    },
-    {
-      id: listDevice[2].id,
-      status: listDevice[1].status,
-    },
-    {
-      id: listDevice[3].id,
-      status: listDevice[1].status,
-    },
   ]);
 
   return (

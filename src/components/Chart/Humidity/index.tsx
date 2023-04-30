@@ -2,7 +2,7 @@ import React from 'react';
 import {LineChart} from "react-native-chart-kit";
 import {Dimensions, Text, View} from "react-native";
 
-const Humidity = () =>{
+const Index = () =>{
     return (
         <View>
             <Text>Humidnity </Text>
@@ -52,4 +52,4 @@ const Humidity = () =>{
         </View>
     )
 }
-export default Humidity;
+export default Index;
