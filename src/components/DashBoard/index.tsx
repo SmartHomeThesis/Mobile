@@ -1,16 +1,50 @@
-import {View, Text, Image, ImageBackground} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  Image,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useState} from 'react';
 import {devices} from '../../types';
-import {gray} from '../../styles/Colors';
+import {gray, orange} from '../../styles/Colors';
+import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
+import CustomText from '../CustomText';
 
 interface DashBoardProps {
   name: string;
   numdevice: number;
   imageRoom: any;
   listDevice: Array<devices>;
+  temperature: number;
 }
 
-const index = ({name, numdevice, imageRoom, listDevice}: DashBoardProps) => {
+const index = ({
+  name,
+  numdevice,
+  imageRoom,
+  listDevice,
+  temperature,
+}: DashBoardProps) => {
+  const [device, setDevice] = useState([
+    {
+      id: listDevice[0].id,
+      status: listDevice[0].status,
+    },
+    {
+      id: listDevice[1].id,
+      status: listDevice[1].status,
+    },
+    {
+      id: listDevice[2].id,
+      status: listDevice[1].status,
+    },
+    {
+      id: listDevice[3].id,
+      status: listDevice[1].status,
+    },
+  ]);
+
   return (
     <View
       style={{
@@ -60,14 +94,57 @@ const index = ({name, numdevice, imageRoom, listDevice}: DashBoardProps) => {
             flexDirection: 'row',
             marginBottom: 15,
           }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              backgroundColor: 'white',
+              borderRadius: 20,
+              padding: 10,
+              alignItems: 'center',
+            }}>
+            <IconMaterial
+              name="waves"
+              size={20}
+              color="black"
+              style={{
+                backgroundColor:
+                  temperature < 24 ? gray.secondary : orange.primary,
+                borderRadius: 10,
+                padding: 5,
+                marginRight: 10,
+              }}
+            />
+            <CustomText
+              style={{
+                fontSize: 18,
+                fontWeight: 'bold',
+              }}>
+              {temperature}
+              {'°'}
+            </CustomText>
+          </View>
           {listDevice.map((item, index) => {
             return (
-              <View
+              <TouchableOpacity
                 key={index}
                 style={{
-                  backgroundColor: 'white',
+                  backgroundColor:
+                    device[index].status === true ? 'white' : gray.tertiary,
                   borderRadius: 20,
                   marginLeft: 10,
+                }}
+                onPress={() => {
+                  setDevice(
+                    device.map(item => {
+                      if (item.id === listDevice[index].id) {
+                        return {
+                          ...item,
+                          status: !item.status,
+                        };
+                      }
+                      return item;
+                    }),
+                  );
                 }}>
                 <Image
                   source={item.image}
@@ -77,7 +154,7 @@ const index = ({name, numdevice, imageRoom, listDevice}: DashBoardProps) => {
                     height: 50,
                   }}
                 />
-              </View>
+              </TouchableOpacity>
             );
           })}
         </View>

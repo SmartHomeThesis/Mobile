@@ -19,8 +19,9 @@ const index = ({id, name, status, image, onPress}: devices) => {
         />
         <CustomText style={styles.deviceName}>{name}</CustomText>
         <SwitchButton
-          feed={name === 'LampGarage' ? 'smart-home.door' : 'smart-home.light'}
+          feed={name === 'Lamp Garage' ? 'smart-home.door' : 'smart-home.light'}
           style={styles.switchContainer}
+          status={status}
         />
       </View>
     </TouchableOpacity>

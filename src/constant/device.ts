@@ -1,78 +1,28 @@
-import {devices} from '../types'
+import { devices } from "../types";
 
 export const LivingRoom: devices[] = [
-    {
-        id: 1,
-        name: 'Lamp',
-        status: false,
-        image: require('../assets/images/lamp.png')
-    },
-    {
-        id: 2,
-        name: 'Lamp',
-        status: false,
-        image: require('../assets/images/lamp.png')   
-    },  
-    {
-        id: 3,
-        name: 'Lamp',
-        status: false,
-        image: require('../assets/images/lamp.png')   
-    }, 
-    {
-        id: 4,
-        name: 'Lamp',
-        status: false,
-        image: require('../assets/images/lamp.png')   
-    }  
-]
-
-export const BedRoom: devices[] = [    {
+  {
     id: 1,
-    name: 'Lamp',
+    name: "Lamp",
     status: false,
-    image: require('../assets/images/lamp.png')   
-},
-{
-    id: 2,
-    name: 'Lamp',
-    status: false,
-    image: require('../assets/images/lamp.png')   
-},  
-{
-    id: 3,
-    name: 'Lamp',
-    status: false,
-    image: require('../assets/images/lamp.png')   
-}, 
-{
-    id: 4,
-    name: 'Lamp',
-    status: false,
-    image: require('../assets/images/lamp.png')   
-}]
+    image: require("../assets/images/lamp.png"),
+  }
+];
 
-export const ParkingGarage: devices[] = [    {
-    id: 1,
-    name: 'LampGarage',
+export const BedRoom: devices[] = [
+  {
+    id: 5,
+    name: "Fan",
     status: false,
-    image: require('../assets/images/lamp.png')   
-},
-{
-    id: 2,
-    name: 'Lamp',
-    status: false,
-    image: require('../assets/images/lamp.png')   
-},  
-{
-    id: 3,
-    name: 'Lamp',
-    status: false,
-    image: require('../assets/images/lamp.png')   
-}, 
-{
-    id: 4,
-    name: 'Lamp',
-    status: false,
-    image: require('../assets/images/lamp.png')   
-}]
+    image: require("../assets/images/lamp.png"),
+  }
+];
+
+export const ParkingGarage: devices[] = [
+  {
+    id: 9,
+    name: "Lamp Garage",
+    status: true,
+    image: require("../assets/images/lamp.png"),
+  }
+];

@@ -4,9 +4,10 @@
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]    
-    } 
+      "@/*": ["src/*"],
+      "@env": ["node_modules/react-native-dotenv"]
+    }
   },
-  "include":["src","custom.d.ts"]
-
-  }
+  "typeRoots": ["./src/types"],
+  "include": ["src", "custom.d.ts"]
+}

@@ -9,6 +9,8 @@ interface input {
   nameIcon: string;
   setIsFocused(type: string): void;
   type: string;
+  value?: string;
+  onChangeValue?: (text: string) => void;
 }
 
 const CustomInput = (props: input) => {
@@ -36,6 +38,8 @@ const CustomInput = (props: input) => {
           placeholder={
             props.type === 'email' ? 'Enter your email' : 'Enter your password'
           }
+          onChangeText={props.onChangeValue}
+          value={props.value}
           secureTextEntry={props.type === 'password' ? true : false}
         />
       </View>

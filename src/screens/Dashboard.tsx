@@ -14,18 +14,21 @@ const Room = () => {
         name="Living room"
         numdevice={4}
         imageRoom={require('../assets/images/livingroom.jpg')}
+        temperature={25}
         listDevice={LivingRoom}
       />
       <DashBoard
         name="Bed room"
         numdevice={4}
         imageRoom={require('../assets/images/bedroom.jpg')}
+        temperature={23}
         listDevice={BedRoom}
       />
       <DashBoard
         name="Garage"
         numdevice={4}
         imageRoom={require('../assets/images/garage.jpg')}
+        temperature={25}
         listDevice={ParkingGarage}
       />
     </View>
