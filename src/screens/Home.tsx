@@ -47,6 +47,7 @@ const Home = ({navigation}: { navigation: any }) => {
     const dispatch = useAppDispatch()
     const state = useAppSelector((state) => state.device)
 
+    const rooms = ['Living room', 'Bedroom', 'Parking garage'];
     useEffect(() => {
         const fetchData = async () => {
             await dispatch(getAllDevice())
@@ -120,7 +121,7 @@ const Home = ({navigation}: { navigation: any }) => {
             </View>
             <Sensor name="Temperature" unit="°C" param="25"/>
             <Sensor name="Humidity" unit="%" param="50"/>
-            <CustomTab selectionMode={0} onSelectSwitch={setTab}/>
+            <CustomTab selectionMode={0} onSelectSwitch={setTab} listTab={rooms}/>
             {tab === 0 && (
                 <View style={styles.boxContainer}>
                     {LivingRoom.map((item, index) => (

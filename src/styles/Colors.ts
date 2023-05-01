@@ -9,4 +9,9 @@ export const gray = {
 };
 export const orange = {
   primary: 'rgba(255, 165, 0, 0.3)',
+  secondary: '#fc7b4b'
 };
+
+export const purple = {
+  primary:"#7947ec"
+}
