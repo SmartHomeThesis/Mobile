@@ -8,7 +8,6 @@ module.exports = {
         extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
         alias: {
           // This needs to be mirrored in tsconfig.json
-          '@/*': ['./src/*'],
         },
       },
     ],
