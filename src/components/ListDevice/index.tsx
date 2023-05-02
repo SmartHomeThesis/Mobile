@@ -8,7 +8,7 @@ import SwitchButton from '../SwitchButton';
 const index = ({id, name, status, image, onPress}: devices) => {
   return (
     <TouchableOpacity style={styles.box} onPress={onPress}>
-      <View style={styles.inner}>
+      <View style={[styles.inner]}>
         <Image
           source={image}
           resizeMode="cover"
@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-    backgroundColor: 'white',
     overflow: 'hidden',
+    backgroundColor:"white",
     borderRadius: 20,
     borderColor: gray.primary,
     alignItems: 'center',

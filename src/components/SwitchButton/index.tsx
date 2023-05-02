@@ -7,15 +7,14 @@ import {getAllDevice, toggleDevice} from "../../redux/reducers/deviceSlice";
 
 interface SwitchButtonProps {
     style?: object;
-    feed: string;
+    feed?: string;
     status: boolean;
+    isDisable?: boolean;
 }
 
-const index = ({style, feed, status}: SwitchButtonProps) => {
+const index = ({style, feed, status,isDisable=false}: SwitchButtonProps) => {
     const [isEnabled, setIsEnabled] = useState(status);
     const dispatch = useAppDispatch();
-    const state = useAppSelector((state) => state.device)
-
     const toggleSwitch = async () => {
         try {
             await dispatch(toggleDevice({feed, isActive: isEnabled}));
@@ -33,7 +32,7 @@ const index = ({style, feed, status}: SwitchButtonProps) => {
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}
                 value={isEnabled}
-                // disabled={true}
+                disabled={isDisable}
             />
         </View>
     );

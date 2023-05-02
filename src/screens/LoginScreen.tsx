@@ -7,7 +7,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomButton from "../components/Button/CustomButton";
 import { blue, gray } from "../styles/Colors";
 import CustomInput from "../components/Input";
@@ -15,6 +15,7 @@ import { styles } from "../styles/Authentication";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { loginAccount } from "../redux/reducers/loginSlice";
 import { API_PUBLIC_ENDPOINT } from "react-native-dotenv";
+import {unwrapResult} from "@reduxjs/toolkit";
 
 const LoginScreen = ({ navigation }: { navigation: any }) => {
   const [isFocused, setIsFocused] = useState<string>("");
@@ -26,9 +27,13 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
   const state = useAppSelector((state) => state.login);
   const handleLogin = async () => {
     try {
-      await dispatch(loginAccount({ email, password }));
-      state.isAuthen && navigation.navigate("App");
+     const resultLogin = await dispatch(loginAccount({ email, password }));
+     const originResult = unwrapResult(resultLogin);
+     if(originResult?.status === 200){
+       navigation.navigate("App");
+     }
     } catch (error) {
+      console.log(error);
     }
   };
   return (
