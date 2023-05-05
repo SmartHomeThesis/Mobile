@@ -11,6 +11,7 @@ interface input {
   type: string;
   value?: string;
   onChangeValue?: (text: string) => void;
+  placeholder?: string;
 }
 
 const CustomInput = (props: input) => {
@@ -36,7 +37,7 @@ const CustomInput = (props: input) => {
           onBlur={() => props.setIsFocused('')}
           style={{flex: 1}}
           placeholder={
-            props.type === 'email' ? 'Enter your email' : 'Enter your password'
+          props.placeholder
           }
           onChangeText={props.onChangeValue}
           value={props.value}

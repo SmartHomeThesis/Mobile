@@ -6,6 +6,8 @@ import LoginScreen from "../screens/LoginScreen";
 import ResetPassword from "../screens/ResetPassword";
 import BottomTab from "./BottomTabNavigator";
 import IntroScreen from "../screens/IntroScreen";
+import SignUp from "../screens/SignUp";
+import OTPVerify from "../screens/OTPVerify";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
@@ -15,6 +17,8 @@ const AuthStack = () => {
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="ResetPassword" component={ResetPassword} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="OTP" component={OTPVerify} />
       <Stack.Screen name="App" component={BottomTab} />
     </Stack.Navigator>
   );

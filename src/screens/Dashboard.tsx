@@ -21,8 +21,8 @@ const Room = () => {
         imageRoom={require("../assets/images/livingroom.jpg")}
         temperature={parseFloat(temp)}
         listDevice={LivingRoom}
-        feed_name={devices.livingRoom[0].key}
-        status={devices.livingRoom[0].status === "1"}
+        feed_name={devices?.livingRoom[0]?.key}
+        status={devices?.livingRoom[0]?.status === "1"}
       />
       <DashBoard
         name="Bed room"
@@ -39,8 +39,8 @@ const Room = () => {
         imageRoom={require("../assets/images/garage.jpg")}
         temperature={parseFloat(temp)}
         listDevice={ParkingGarage}
-        feed_name={devices.parkingGarage[0].key}
-        status={devices.parkingGarage[0].status === "1"}
+        feed_name={devices?.parkingGarage[0]?.key}
+        status={devices?.parkingGarage[0]?.status === "1"}
       />
     </View>
   );

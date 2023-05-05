@@ -50,8 +50,8 @@ const Index = () => {
                 justifyContent:"space-around",
                 width:"100%"
             }}>
-                <BoxUsage title="Electricity Cost" cost={`$415.42`} color={purple.primary} type="cost" />
-                <BoxUsage title="Electricity Usage" cost={`415.43 kw`} color={orange.secondary} type="cost" />
+                <BoxUsage title={`Electricity \nCost`} cost={`$415.42`} color={purple.primary} type="cost" />
+                <BoxUsage title={`Electricity \nUsage`} cost={`415.43 kw`} color={orange.secondary} type="cost" />
             </View>
         </>
     )

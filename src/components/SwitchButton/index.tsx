@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {memo, useEffect, useState} from "react";
 import {View, Switch, StyleSheet} from "react-native";
 import {gray} from "../../styles/Colors";
 import {API_ADAFRUIT_URL, API_ADAFRUIT_KEY} from "react-native-dotenv";
@@ -13,12 +13,12 @@ interface SwitchButtonProps {
 }
 
 const index = ({style, feed, status,isDisable=false}: SwitchButtonProps) => {
-    const [isEnabled, setIsEnabled] = useState(status);
+    const [isEnabled, setIsEnabled] = useState<boolean>(status);
     const dispatch = useAppDispatch();
     const toggleSwitch = async () => {
         try {
-            await dispatch(toggleDevice({feed, isActive: isEnabled}));
             setIsEnabled((previousState) => !previousState);
+            await dispatch(toggleDevice({feed, isActive: isEnabled}));
         } catch (error) {
             console.error("toggleSwitch error", error);
 
@@ -41,4 +41,4 @@ const index = ({style, feed, status,isDisable=false}: SwitchButtonProps) => {
 const styles = StyleSheet.create({
     container: {},
 });
-export default index;
+export default memo(index);

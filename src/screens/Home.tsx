@@ -66,14 +66,12 @@ const Home = ({ navigation }: { navigation: any }) => {
   const state = useAppSelector((state) => state.device);
   const rooms = ["Living room", "Bedroom", "Parking garage"];
   useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(getAllDevice());
-    };
-    fetchData().catch((error) => {
-      console.error("fetchData error", error);
-    });
+    const unsubcribe = navigation.addListener("focus", async () => {
+         await dispatch(getAllDevice());
+        });
     return () => {
       dispatch(removeAllStateDevice());
+      unsubcribe();
     };
   }, []);
   return (
@@ -142,6 +140,7 @@ const Home = ({ navigation }: { navigation: any }) => {
             <ListDevice
               id={item.id}
               name={item.name}
+              feed_name={state?.livingRoom[0]?.key}
               status={state?.livingRoom[0]?.status === "1"}
               image={item.image}
               key={index}
@@ -150,6 +149,7 @@ const Home = ({ navigation }: { navigation: any }) => {
                   id: item.id,
                   name: item.name,
                   isActive: state?.livingRoom[0]?.status === "1",
+                  feed_name: state?.livingRoom[0]?.key,
                 });
               }}
             />
@@ -162,6 +162,7 @@ const Home = ({ navigation }: { navigation: any }) => {
             <ListDevice
               id={item.id}
               name={item.name}
+              feed_name={item.name}
               status={item.status}
               image={item.image}
               key={index}
@@ -170,6 +171,7 @@ const Home = ({ navigation }: { navigation: any }) => {
                   id: item.id,
                   name: item.name,
                   isActive: true,
+                    feed_name: "",
                 });
               }}
             />
@@ -182,6 +184,7 @@ const Home = ({ navigation }: { navigation: any }) => {
             <ListDevice
               id={item.id}
               name={item.name}
+              feed_name={state?.parkingGarage[0]?.key}
               status={state?.parkingGarage[0]?.status === "1"}
               image={item.image}
               key={index}
@@ -190,6 +193,7 @@ const Home = ({ navigation }: { navigation: any }) => {
                   id: item.id,
                   name: item.name,
                   isActive: state?.parkingGarage[0]?.status === "1",
+                  feed_name: state?.parkingGarage[0]?.key,
                 });
               }}
             />

@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import loginSlice from "./reducers/loginSlice";
 import deviceSlice from "./reducers/deviceSlice";
+import addMemberSlice from "./reducers/addMemberSlice";
 
 const store = configureStore({
   reducer: {
     login: loginSlice.reducer,
     device: deviceSlice.reducer,
+    addMember: addMemberSlice.reducer,
   },
 });
 

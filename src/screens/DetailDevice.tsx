@@ -1,5 +1,5 @@
 import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BackIcon from "../components/BackIcon";
 import { styles as styleGlobal } from "../styles/Global";
 import SwitchButton from "../components/SwitchButton";
@@ -8,6 +8,9 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../hooks";
+import { toggleDevice } from "../redux/reducers/deviceSlice";
 
 const DetailDevice = ({
   navigation,
@@ -16,26 +19,45 @@ const DetailDevice = ({
   navigation: any;
   route: any;
 }) => {
-  const {isActive} = route.params;
+  const { isActive, feed_name } = route.params;
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
+  const dispatch = useAppDispatch();
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-  const handleConfirm = (date:Date) => {
-    console.warn("A date has been picked: ", date);
+  const handleConfirm = (date: Date) => {
+    console.log("A date has been picked: ", date);
     setSelectedDate(date);
     hideDatePicker();
   };
+  // handle logic to turn on/off device when schedule
+  useEffect(() => {
+    if (selectedDate) {
+      //   @ts-ignore
+      const secondsLeft = Math.floor(selectedDate - Date.now());
+      console.log("setTimeout senconds: ", secondsLeft);
+      if (secondsLeft < 0) return;
+      var timerID = setTimeout(() => {
+        dispatch(toggleDevice({ feed: feed_name, isActive }));
+      }, secondsLeft);
+    }
+    () => clearTimeout(timerID);
+  }, [selectedDate]);
   return (
     <View style={styleGlobal.container}>
       <BackIcon navigation={navigation} />
-      <View style={[styles.container,{
-        marginTop:16
-      }]}>
+      <View
+        style={[
+          styles.container,
+          {
+            marginTop: 16,
+          },
+        ]}
+      >
         <View
           style={{
             flexDirection: "row",
@@ -58,7 +80,7 @@ const DetailDevice = ({
           <Text>IF</Text>
           <AntDesign name="arrowright" size={20} color="#000" />
           <Text>DO</Text>
-          <Text>Activate</Text>
+          <Text>{isActive ? "Activated" : "Deactivated"}</Text>
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <View>
@@ -114,7 +136,7 @@ const DetailDevice = ({
           <View
             style={{
               flex: 0.5,
-              backgroundColor: isActive ? "white" :"black",
+              backgroundColor: isActive ? "white" : "black",
               borderRadius: 20,
 
               shadowColor: "#000",
@@ -126,9 +148,6 @@ const DetailDevice = ({
               shadowRadius: 2.22,
 
               elevation: 3,
-
-
-
             }}
           >
             <Image
@@ -157,7 +176,7 @@ const DetailDevice = ({
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           date={selectedDate}
-          mode="time"
+          mode="datetime"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />

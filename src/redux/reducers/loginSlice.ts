@@ -1,5 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authenService } from "../../services/Authentication";
+import {getToken, storeToken} from "../../services/storage";
+
 
 interface userType {
   id: number;
@@ -59,6 +61,7 @@ export const loginAccount = createAsyncThunk(
         email,
         password
       );
+      await storeToken(Response.accessToken);
       return { data:Response, status };
     } catch (err) {
       console.error("Error: ", err);

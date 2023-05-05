@@ -6,15 +6,17 @@ export default function CustomButton({
   onPress,
   styleText,
   styleButton,
+    children,
 }: {
-  label: string;
+  label?: string;
   onPress: any;
   styleText?: object;
   styleButton: object;
+  children?: any;
 }) {
   return (
     <TouchableOpacity onPress={onPress} style={styleButton}>
-      <Text style={styleText}>{label}</Text>
+      {children || <Text style={styleText}>{label}</Text>}
     </TouchableOpacity>
   );
 }
