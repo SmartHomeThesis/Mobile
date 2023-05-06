@@ -13,130 +13,143 @@ import { styles as GlobalStyle } from "../styles/Global";
 import CustomButton from "../components/Button/CustomButton";
 import { gray } from "../styles/Colors";
 import { styles } from "../styles/Authentication";
-import { User } from "../constant/user";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import {IMember, sendInviteEmail, showAllUser} from "../redux/reducers/addMemberSlice";
+import {
+  IMember,
+  IPermission,
+  sendInviteEmail,
+  showAllUser,
+} from "../redux/reducers/addMemberSlice";
 // @ts-ignore
 import SelectBox from "react-native-multi-selectbox";
 // @ts-ignore
 import { xorBy } from "lodash";
 import Toast from "react-native-toast-message";
-import { IAvatar} from "../types";
+import { IAvatar } from "../types";
+import { imagesAvatar } from "../constant/image";
 
 const K_OPTIONS = [
-    {
-        id: 1,
-        item: "Living Room",
-    },
-    {
-        id: 2,
-        item: "Bedroom",
-    },
-    {
-        id: 3,
-        item: "Kitchen",
-    }
-]
+  {
+    id: 1,
+    item: "Living Room",
+  },
+  {
+    id: 2,
+    item: "Bedroom",
+  },
+  {
+    id: 3,
+    item: "Kitchen",
+  },
+];
+const User = ({
+  item,
+  index,
+  selectedTeams,
+  onMultiChange,
+}: {
+  item: IMember;
+  index: any;
+  selectedTeams: any;
+  onMultiChange: any;
+}) => {
+    const [state,setState] = useState({ })
+  return (
+    <View
+      key={index}
+      style={{
+        maxWidth: "100%",
+        padding: 16,
+        backgroundColor: "white",
+        marginVertical: 8,
+        borderRadius: 10,
+      }}
+    >
+      <View
+        key={index}
+        style={{
+          height: 100,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Image
+          source={imagesAvatar[item.avatar]}
+          resizeMode="cover"
+          style={{
+            width: 50,
+            height: 50,
+            marginRight: 16,
+          }}
+        />
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          <CustomText
+            style={{
+              fontWeight: "600",
+            }}
+          >
+            {item.name}
+          </CustomText>
+          <CustomText
+            style={{
+              fontSize: 12,
+              fontWeight: "300",
+            }}
+          >
+            {item.email}
+          </CustomText>
+        </View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "red",
+            borderRadius: 18,
+            padding: 4,
+            width: 80,
+            alignItems: "center",
+          }}
+          onPress={() => console.log("Delete")}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: "400",
+              color: "white",
+            }}
+          >
+            Remove
+          </Text>
+        </TouchableOpacity>
+      </View>
+      {/*TODO  Select Dropdown*/}
+      <SelectBox
+        label=""
+        options={K_OPTIONS}
+        hideInputFilter={true}
+        selectedValues={selectedTeams}
+        onMultiSelect={onMultiChange()}
+        onTapClose={onMultiChange()}
+        isMulti
+        labelStyle={{
+          display: "none",
+        }}
+      />
+    </View>
+  );
+};
 const Profile = () => {
-    const imagesAvatar:IAvatar ={
-        dog_avatar: require("../assets/images/dog_avatar.png"),
-        woman_avatar: require("../assets/images/woman_avatar.png"),
-        man_avatar: require("../assets/images/man_avatar.png"),
-        man2_avatar: require("../assets/images/man2_avatar.png"),
-    }
+  const [selectedTeams, setSelectedTeams] = useState([]);
+  function onMultiChange() {
+    return (item: any) => setSelectedTeams((prev) => xorBy(prev, [item], "id"));
+  }
   const [email, setEmail] = React.useState("");
   const dispatch = useAppDispatch();
   const allMembers = useAppSelector((state) => state.addMember.allMember);
 
-  const [selectedTeams, setSelectedTeams] = useState([]);
-  const User = ({ item, index }: { item: IMember; index: any }) => {
-      return (
-      <View
-        key={index}
-        style={{
-          maxWidth: "100%",
-          padding: 16,
-          backgroundColor: "white",
-          marginVertical: 8,
-          borderRadius: 10,
-        }}
-      >
-        <View
-          key={index}
-          style={{
-            height: 100,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Image
-            source={imagesAvatar[item.avatar ] }
-            resizeMode="cover"
-            style={{
-              width: 50,
-              height: 50,
-              marginRight: 16,
-            }}
-          />
-          <View
-            style={{
-              flex: 1,
-            }}
-          >
-            <CustomText
-              style={{
-                fontWeight: "600",
-              }}
-            >
-              {item.name}
-            </CustomText>
-            <CustomText
-              style={{
-                fontSize: 12,
-                fontWeight: "300",
-              }}
-            >
-              {item.email}
-            </CustomText>
-          </View>
-          <TouchableOpacity
-            style={{
-              backgroundColor: "red",
-              borderRadius: 18,
-              padding: 4,
-              width: 80,
-              alignItems: "center",
-            }}
-            onPress={() => console.log("Delete")}
-          >
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: "400",
-                color: "white",
-              }}
-            >
-              Remove
-            </Text>
-          </TouchableOpacity>
-        </View>
-        {/*  Select Dropdown todo*/}
-        <SelectBox
-          label=""
-          options={K_OPTIONS}
-          hideInputFilter={true}
-          selectedValues={selectedTeams}
-          onMultiSelect={onMultiChange()}
-          onTapClose={onMultiChange()}
-          isMulti
-          labelStyle={{
-            display: "none",
-          }}
-        />
-      </View>
-    );
-  };
   const handleSendInvite = async () => {
     try {
       await dispatch(sendInviteEmail(email));
@@ -223,14 +236,12 @@ const Profile = () => {
       </CustomText>
       <FlatList
         data={allMembers}
-        renderItem={User}
-        extraData={[selectedTeams, onMultiChange]}
+        renderItem={({ item, index }) => (
+            <User item={item} index={index} selectedTeams={selectedTeams} onMultiChange={onMultiChange} />
+        )}
       />
     </SafeAreaView>
   );
-  function onMultiChange() {
-    return (item: any) => setSelectedTeams((prev) => xorBy(prev, [item], "id"));
-  }
 };
 
 export default Profile;

@@ -3,7 +3,7 @@ import {authenService} from "../../services/Authentication";
 import {avatarName} from "../../types";
 
 const avatars:avatarName[] =["dog_avatar","woman_avatar","man_avatar","man2_avatar"];
-interface IPermission {
+export interface IPermission {
     id_pms: number,
     permission: string,
 }
@@ -12,7 +12,7 @@ export interface IMember {
     email: string,
     name:string,
     avatar: avatarName,
-    permission: IPermission[]
+    permissions: IPermission[]
 }
 
 const initialState: {status:string,allMember:IMember[]} = {
@@ -75,8 +75,6 @@ export const showAllUser = createAsyncThunk(
     async () => {
         try {
             const {data:{data:Response},status} = await authenService.showAllUser();
-            console.log("response",Response)
-
             Response.forEach((member:IMember) => {
                 member.avatar = avatars[Math.floor(Math.random() * avatars.length)];
             });

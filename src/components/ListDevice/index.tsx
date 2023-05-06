@@ -6,6 +6,7 @@ import {gray} from '../../styles/Colors';
 import SwitchButton from '../SwitchButton';
 
 const index = ({id,name, feed_name, status, image, onPress}: devices) => {
+
   return (
     <TouchableOpacity style={styles.box} onPress={onPress}>
       <View style={[styles.inner]}>

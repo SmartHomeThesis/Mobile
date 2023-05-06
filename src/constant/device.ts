@@ -26,3 +26,24 @@ export const ParkingGarage: devices[] = [
     image: require("../assets/images/lamp_gara.png"),
   }
 ];
+
+
+
+export const K_OPTIONS = [
+  {
+    id: 1,
+    item: "Living Room",
+  },
+  {
+    id: 2,
+    item: "Bedroom",
+  },
+  {
+    id: 3,
+    item: "Kitchen",
+  }
+]
+export enum deviceState {
+  ON = "1",
+  OFF = "0",
+}

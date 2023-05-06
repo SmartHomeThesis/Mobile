@@ -7,7 +7,7 @@ import {getAllDevice, toggleDevice} from "../../redux/reducers/deviceSlice";
 
 interface SwitchButtonProps {
     style?: object;
-    feed?: string;
+    feed: string;
     status: boolean;
     isDisable?: boolean;
 }

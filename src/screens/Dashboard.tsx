@@ -3,9 +3,10 @@ import React from "react";
 import { LivingRoom, BedRoom, ParkingGarage } from "../constant/device";
 import DashBoard from "../components/DashBoard";
 import { useAppSelector } from "../hooks";
+import {deviceState} from '../constant/device'
 
 const Room = () => {
-  const temp = useAppSelector((state) => state.device.temperature.value);
+  const temp = useAppSelector((state) => state.device.temperature.last_value);
   const devices = useAppSelector((state) => state.device);
 
   return (
@@ -22,7 +23,7 @@ const Room = () => {
         temperature={parseFloat(temp)}
         listDevice={LivingRoom}
         feed_name={devices?.livingRoom[0]?.key}
-        status={devices?.livingRoom[0]?.status === "1"}
+        status={devices?.livingRoom[0]?.last_value === deviceState.ON}
       />
       <DashBoard
         name="Bed room"
@@ -40,7 +41,7 @@ const Room = () => {
         temperature={parseFloat(temp)}
         listDevice={ParkingGarage}
         feed_name={devices?.parkingGarage[0]?.key}
-        status={devices?.parkingGarage[0]?.status === "1"}
+        status={devices?.parkingGarage[0]?.last_value === deviceState.ON}
       />
     </View>
   );

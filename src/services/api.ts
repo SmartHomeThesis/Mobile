@@ -8,7 +8,6 @@ export const useApi = (baseURL = API_PUBLIC_ENDPOINT, useToken = true) => {
       if (useToken) {
         const token = await getToken();
         if (token) {
-          console.log("useAPI token", token);
           request.headers["token"] = `${token}`;
         }
       }

@@ -1,43 +1,32 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {deviceService} from "../../services/Device";
 
+
 type deviceProps = {
     id: number;
-    key: string;
+    key: string; // feed_id
     name: string;
+    last_value: string;
 }
 
-type RoomProps = deviceProps & {
-    status:string
-}
-type SensorProps =   deviceProps & {
-    value:string
-}
+
 
 interface DeviceState {
     status: "idle" | "loading" | "failed";
-    livingRoom: RoomProps[];
-    parkingGarage: RoomProps[];
-    temperature:SensorProps
-    humidity:SensorProps
+    livingRoom: deviceProps[] | Record<any, any>[]
+    bedRoom: deviceProps[] | Record<any, any>[];
+    parkingGarage: deviceProps[] | Record<any, any>[];
+    temperature:deviceProps | Record<any, any>
+    humidity:deviceProps | Record<any, any>
 }
 
 const initialState: DeviceState = {
     status: "idle",
     livingRoom: [],
+    bedRoom: [],
     parkingGarage: [],
-    temperature:{
-        id:0,
-        key:"",
-        name:"",
-        value:""
-    },
-    humidity:{
-        id:0,
-        key:"",
-        name:"",
-        value:""
-    }
+    temperature:{},
+    humidity:{}
 };
 
 
@@ -52,29 +41,35 @@ const deviceSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getAllDevice.pending, (state) => {
+            state.status = "loading";
         });
         builder.addCase(getAllDevice.fulfilled, (state, action) => {
-            const {id, key, name, last_value} = action.payload?.livingRoom;
-            state.livingRoom[0] = {id, key, name, status:last_value};
-            const {id: id2, key: key2, name: name2, last_value: last_value_2} = action.payload?.parkingGarage;
-            state.parkingGarage[0] = {id: id2, key: key2, name: name2, status: last_value_2};
-            const {id: id3, key: key3, name: name3, last_value: last_value_3} = action.payload?.temperature;
-            state.temperature = {id: id3, key: key3, name: name3, value: last_value_3};
-            const {id: id4, key: key4, name: name4, last_value: last_value_4} = action.payload?.humidity;
-            state.humidity = {id: id4, key: key4, name: name4, value: last_value_4};
+            if(typeof action.payload === "undefined") return;
+            const {livingRoom,bedRoom,parkingGarage,temperature,humidity} = action.payload;
+            state.livingRoom = livingRoom;
+            state.bedRoom = bedRoom;
+            state.parkingGarage = parkingGarage;
+            state.temperature = temperature;
+            state.humidity = humidity;
+            state.status = "idle";
         });
         builder.addCase(toggleDevice.pending, (state) => {
             state.status = "loading";
         });
         builder.addCase(toggleDevice.fulfilled, (state,action) => {
+            if(typeof action.payload === "undefined") return;
+            const {feed_id,feed_key,value}  = action.payload.response;
+            // Todo need to refactor after. It's not good solution
+            if(state.livingRoom[0].key === feed_key){
+                state.livingRoom[0].last_value =  value;
+            }
+            if(state.bedRoom[0].key === feed_key){
+                state.bedRoom[0].last_value =  value;
+            }
+            if(state.parkingGarage[0].key === feed_key){
+                state.parkingGarage[0].last_value =  value;
+            }
             state.status = "idle";
-            const {feed_id,value}:{feed_id:number,value:string} = action.payload?.response;
-            if (state.livingRoom[0].id === feed_id){
-                state.livingRoom[0].status = value;
-            }
-            else {
-                state.parkingGarage[0].status = value;
-            }
 
         });
         builder.addCase(toggleDevice.rejected, (state) => {
@@ -83,12 +78,25 @@ const deviceSlice = createSlice({
     },
 });
 
+interface deviceResponse<T> {
+    [key: string]: T
+}
 export const getAllDevice = createAsyncThunk(
     "device/getAllDevice",
     async () => {
         try {
             const {data} = await deviceService.getAllDevice();
-            return {livingRoom: data[4], parkingGarage: data[3], temperature: data[0], humidity: data[1]};
+            const responseData:deviceResponse<deviceProps> = {}
+            data.forEach((item: deviceProps) => {
+                   responseData[item.name] = item;
+            })
+            return {
+                humidity:responseData.Humidity,
+                temperature:responseData.Temperature,
+                livingRoom:[responseData.Light_Livingroom],
+                bedRoom:[responseData.Light_Bedroom],
+                parkingGarage:[responseData.Light_Bedroom]
+            }
         } catch (err) {
             console.error("Error: ", err);
         }
@@ -97,7 +105,7 @@ export const getAllDevice = createAsyncThunk(
 
 export const toggleDevice = createAsyncThunk(
     "device/toggleDevice",
-    async ({feed, isActive}: { feed?: string; isActive: boolean }) => {
+    async ({feed, isActive}: { feed: string; isActive: boolean }) => {
         try {
             const {data:response} = await deviceService.toggleStateDevice(feed, isActive);
             return {response};

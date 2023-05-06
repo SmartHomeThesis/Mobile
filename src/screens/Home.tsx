@@ -5,7 +5,7 @@ import { styles as stylesGlobal } from "../styles/Global";
 import CustomText from "../components/CustomText";
 import CustomTab from "../components/CustomTab";
 import { gray } from "../styles/Colors";
-import { LivingRoom, BedRoom, ParkingGarage } from "../constant/device";
+import {LivingRoom, BedRoom, ParkingGarage, deviceState} from "../constant/device";
 import ListDevice from "../components/ListDevice";
 import Avatar from "../components/Avatar";
 import { useAppDispatch, useAppSelector } from "../hooks";
@@ -15,13 +15,14 @@ import {
 } from "../redux/reducers/deviceSlice";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import Ionicons from "react-native-vector-icons/Ionicons";
-interface sennsorProps {
+interface sensorProps {
   name: string;
   unit: string;
   param: string;
 }
 
-const Sensor = ({ name, unit, param }: sennsorProps) => {
+
+const Sensor = ({ name, unit, param }: sensorProps) => {
   return (
     <View
       style={{
@@ -63,17 +64,19 @@ const Sensor = ({ name, unit, param }: sennsorProps) => {
 const Home = ({ navigation }: { navigation: any }) => {
   const [tab, setTab] = React.useState<number>(0);
   const dispatch = useAppDispatch();
-  const state = useAppSelector((state) => state.device);
+  const device = useAppSelector((state) => state.device);
   const rooms = ["Living room", "Bedroom", "Parking garage"];
   useEffect(() => {
-    const unsubcribe = navigation.addListener("focus", async () => {
+    //   Error here state equal when get all device. It not render page
+    const unsubscribe = navigation.addListener("focus", async () => {
          await dispatch(getAllDevice());
         });
     return () => {
       dispatch(removeAllStateDevice());
-      unsubcribe();
+      unsubscribe();
     };
   }, []);
+
   return (
     <ScrollView contentContainerStyle={stylesGlobal.container}>
       <View
@@ -131,8 +134,8 @@ const Home = ({ navigation }: { navigation: any }) => {
           />
         </View>
       </View>
-      <Sensor name="Temperature" unit="°C" param={state.temperature.value} />
-      <Sensor name="Humidity" unit="%" param={state.humidity.value} />
+      <Sensor name="Temperature" unit="°C" param={device.temperature.last_value} />
+      <Sensor name="Humidity" unit="%" param={device.humidity.last_value} />
       <CustomTab selectionMode={0} onSelectSwitch={setTab} listTab={rooms} />
       {tab === 0 && (
         <View style={styles.boxContainer}>
@@ -140,16 +143,16 @@ const Home = ({ navigation }: { navigation: any }) => {
             <ListDevice
               id={item.id}
               name={item.name}
-              feed_name={state?.livingRoom[0]?.key}
-              status={state?.livingRoom[0]?.status === "1"}
+              feed_name={device?.livingRoom[index]?.key}
+              status={device?.livingRoom[index]?.last_value === deviceState.ON}
               image={item.image}
               key={index}
               onPress={() => {
                 navigation.navigate("DetailDevice", {
                   id: item.id,
                   name: item.name,
-                  isActive: state?.livingRoom[0]?.status === "1",
-                  feed_name: state?.livingRoom[0]?.key,
+                  isActive: device?.livingRoom[index]?.last_value === deviceState.ON,
+                  feed_name: device?.livingRoom[index]?.key,
                 });
               }}
             />
@@ -162,8 +165,8 @@ const Home = ({ navigation }: { navigation: any }) => {
             <ListDevice
               id={item.id}
               name={item.name}
-              feed_name={item.name}
-              status={item.status}
+              feed_name={device?.bedRoom[index]?.key}
+              status={device?.bedRoom[index]?.last_value === deviceState.ON}
               image={item.image}
               key={index}
               onPress={() => {
@@ -184,16 +187,16 @@ const Home = ({ navigation }: { navigation: any }) => {
             <ListDevice
               id={item.id}
               name={item.name}
-              feed_name={state?.parkingGarage[0]?.key}
-              status={state?.parkingGarage[0]?.status === "1"}
+              feed_name={device?.parkingGarage[index]?.key}
+              status={device?.parkingGarage[index]?.last_value === deviceState.ON}
               image={item.image}
               key={index}
               onPress={() => {
                 navigation.navigate("DetailDevice", {
                   id: item.id,
                   name: item.name,
-                  isActive: state?.parkingGarage[0]?.status === "1",
-                  feed_name: state?.parkingGarage[0]?.key,
+                  isActive: device?.parkingGarage[index]?.last_value === deviceState.ON,
+                  feed_name: device?.parkingGarage[index]?.key,
                 });
               }}
             />

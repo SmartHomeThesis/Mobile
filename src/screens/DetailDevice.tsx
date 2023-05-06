@@ -67,7 +67,7 @@ const DetailDevice = ({
           <Text style={{ fontSize: 24, fontWeight: "bold", color: "black" }}>
             {route.params?.name}
           </Text>
-          <SwitchButton status={isActive} isDisable={true} />
+          <SwitchButton status={isActive} isDisable={true} feed=""  />
         </View>
         <View
           style={{

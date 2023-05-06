@@ -13,12 +13,12 @@ interface userType {
 }
 interface userInfo {
   user: userType;
-  accessToken: string;
+  accessToken: string
   status: number;
 }
 interface LoginState {
   status: "idle" | "loading" | "failed";
-  user: userInfo | {};
+  user: userInfo | Record<any, any>;
 }
 
 interface loginResponse {
@@ -42,8 +42,8 @@ const loginSlice = createSlice({
       state.status= "loading";
     });
     builder.addCase(loginAccount.fulfilled, (state, action) => {
+      state.status = "idle";
       if (action.payload?.status === 200) {
-        state.status = "idle";
         state.user = action.payload.data
       }
     });

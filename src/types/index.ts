@@ -6,7 +6,7 @@ export interface devices {
   status: boolean;
   image: any;
   onPress?: () => void;
-  feed_name?: string;
+  feed_name: string;
 }
 export interface users {
   id: number;
