@@ -12,7 +12,7 @@ const Index = () =>{
             <CustomText>Humidnity </CustomText>
             <LineChart
                 data={{
-                    labels: ["January", "February", "March", "April", "May", "June"],
+                    labels: ["9AM", "10AM", "11AM", "12PM", "13AM", "14PM","15PM", "16PM", "17PM"],
                     datasets: [
                         {
                             data: [
@@ -28,8 +28,8 @@ const Index = () =>{
                 }}
                 width={Dimensions.get("window").width - 20} // from react-native
                 height={220}
-                yAxisLabel="$"
-                yAxisSuffix="k"
+                yAxisLabel=""
+                yAxisSuffix="%"
                 yAxisInterval={1} // optional, defaults to 1
                 chartConfig={{
                     backgroundColor: "#ffffff",

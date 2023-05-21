@@ -12,7 +12,7 @@ interface userType {
   role: string;
 }
 interface userInfo {
-  user: userType;
+  user_reponse: userType;
   accessToken: string
   status: number;
 }

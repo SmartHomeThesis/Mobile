@@ -5,7 +5,12 @@ import { styles as stylesGlobal } from "../styles/Global";
 import CustomText from "../components/CustomText";
 import CustomTab from "../components/CustomTab";
 import { gray } from "../styles/Colors";
-import {LivingRoom, BedRoom, ParkingGarage, deviceState} from "../constant/device";
+import {
+  LivingRoom,
+  BedRoom,
+  ParkingGarage,
+  deviceState,
+} from "../constant/device";
 import ListDevice from "../components/ListDevice";
 import Avatar from "../components/Avatar";
 import { useAppDispatch, useAppSelector } from "../hooks";
@@ -15,12 +20,13 @@ import {
 } from "../redux/reducers/deviceSlice";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import {client} from "../services/mqtt";
+
 interface sensorProps {
   name: string;
   unit: string;
   param: string;
 }
-
 
 const Sensor = ({ name, unit, param }: sensorProps) => {
   return (
@@ -65,12 +71,14 @@ const Home = ({ navigation }: { navigation: any }) => {
   const [tab, setTab] = React.useState<number>(0);
   const dispatch = useAppDispatch();
   const device = useAppSelector((state) => state.device);
+  const userLogin = useAppSelector((state) => state.login);
+    console.log("username",userLogin?.user?.user_reponse?.username)
   const rooms = ["Living room", "Bedroom", "Parking garage"];
   useEffect(() => {
     //   Error here state equal when get all device. It not render page
     const unsubscribe = navigation.addListener("focus", async () => {
-         await dispatch(getAllDevice());
-        });
+      await dispatch(getAllDevice());
+    });
     return () => {
       dispatch(removeAllStateDevice());
       unsubscribe();
@@ -90,7 +98,7 @@ const Home = ({ navigation }: { navigation: any }) => {
       >
         <CustomText style={{ fontSize: 24, fontWeight: "400" }}>
           Good morning,{`\n`}
-          <Text style={{ fontWeight: "bold" }}>Mira</Text>
+          <Text style={{ fontWeight: "bold" }}>{userLogin?.user?.user_reponse?.username ?? ""}</Text>
         </CustomText>
         <Icon name="bell-badge-outline" size={20} color="black" />
       </View>
@@ -134,7 +142,11 @@ const Home = ({ navigation }: { navigation: any }) => {
           />
         </View>
       </View>
-      <Sensor name="Temperature" unit="°C" param={device.temperature.last_value} />
+      <Sensor
+        name="Temperature"
+        unit="°C"
+        param={device.temperature.last_value}
+      />
       <Sensor name="Humidity" unit="%" param={device.humidity.last_value} />
       <CustomTab selectionMode={0} onSelectSwitch={setTab} listTab={rooms} />
       {tab === 0 && (
@@ -151,7 +163,8 @@ const Home = ({ navigation }: { navigation: any }) => {
                 navigation.navigate("DetailDevice", {
                   id: item.id,
                   name: item.name,
-                  isActive: device?.livingRoom[index]?.last_value === deviceState.ON,
+                  isActive:
+                    device?.livingRoom[index]?.last_value === deviceState.ON,
                   feed_name: device?.livingRoom[index]?.key,
                 });
               }}
@@ -174,7 +187,7 @@ const Home = ({ navigation }: { navigation: any }) => {
                   id: item.id,
                   name: item.name,
                   isActive: true,
-                    feed_name: "",
+                  feed_name: "",
                 });
               }}
             />
@@ -188,14 +201,17 @@ const Home = ({ navigation }: { navigation: any }) => {
               id={item.id}
               name={item.name}
               feed_name={device?.parkingGarage[index]?.key}
-              status={device?.parkingGarage[index]?.last_value === deviceState.ON}
+              status={
+                device?.parkingGarage[index]?.last_value === deviceState.ON
+              }
               image={item.image}
               key={index}
               onPress={() => {
                 navigation.navigate("DetailDevice", {
                   id: item.id,
                   name: item.name,
-                  isActive: device?.parkingGarage[index]?.last_value === deviceState.ON,
+                  isActive:
+                    device?.parkingGarage[index]?.last_value === deviceState.ON,
                   feed_name: device?.parkingGarage[index]?.key,
                 });
               }}

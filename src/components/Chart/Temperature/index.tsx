@@ -4,6 +4,8 @@ import {Dimensions, Text, View} from "react-native";
 import CustomText from "../../CustomText";
 
 const Index = () =>{
+    let number = Math.random() * 30;
+    let spreadElements = ["9AM", "10AM", "11AM", "12PM", "13AM", "14PM", "15PM", "16PM", "17PM"];
     return (
         <View style={{
             flex:1,
@@ -11,24 +13,27 @@ const Index = () =>{
             <CustomText>Temperature </CustomText>
             <LineChart
                 data={{
-                    labels: ["January", "February", "March", "April", "May", "June"],
+                    labels: [...spreadElements],
                     datasets: [
                         {
                             data: [
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100
+                                number,
+                                number,
+                                number,
+                                number,
+                                number,
+                                number,
+                                number,
+                                number,
+                                number,
                             ]
                         }
                     ]
                 }}
                 width={Dimensions.get("window").width - 20} // from react-native
                 height={220}
-                yAxisLabel="$"
-                yAxisSuffix="k"
+                yAxisLabel=""
+                yAxisSuffix="°C"
                 yAxisInterval={1} // optional, defaults to 1
                 chartConfig={{
                     backgroundColor: "#188396FF",

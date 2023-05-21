@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import CustomText from "../components/CustomText";
@@ -15,10 +16,10 @@ import { gray } from "../styles/Colors";
 import { styles } from "../styles/Authentication";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import {
-  IMember,
-  IPermission,
-  sendInviteEmail,
-  showAllUser,
+    IMember,
+    IPermission,
+    sendInviteEmail, setPermission,
+    showAllUser,
 } from "../redux/reducers/addMemberSlice";
 // @ts-ignore
 import SelectBox from "react-native-multi-selectbox";
@@ -27,6 +28,7 @@ import { xorBy } from "lodash";
 import Toast from "react-native-toast-message";
 import { IAvatar } from "../types";
 import { imagesAvatar } from "../constant/image";
+import {changeRoomVietToEng} from "../constant/device";
 
 const K_OPTIONS = [
   {
@@ -39,21 +41,36 @@ const K_OPTIONS = [
   },
   {
     id: 3,
-    item: "Kitchen",
+    item: "Parking Garage",
   },
 ];
-const User = ({
-  item,
-  index,
-  selectedTeams,
-  onMultiChange,
-}: {
-  item: IMember;
-  index: any;
-  selectedTeams: any;
-  onMultiChange: any;
-}) => {
-    const [state,setState] = useState({ })
+const User = ({ item, index }: { item: IMember; index: any }) => {
+  const [state, setState] = useState(()=>{
+      let callbackfn = (item: IPermission) => {
+          return {
+              id: item.id,
+              item: changeRoomVietToEng(item.permission),
+          };
+      };
+      const arr = item.permissions.map(callbackfn);
+    return arr;
+  });
+  const dispatch = useAppDispatch();
+
+  // Todo handle change permission with api
+  const  onMultiChange = () =>{
+    return async (rooms: any) =>{
+        const room = xorBy(state, [rooms], "id")
+        const permission = room.map((item:any) => { return item.id})
+        const {status} =  await dispatch(setPermission({permission: permission, user_id:item.id })).unwrap();
+        console.log(status)
+        if(status === 200){
+            console.log("success")
+            setState((prev) => xorBy(prev, [rooms], "id"));
+        }
+    }
+
+  }
   return (
     <View
       key={index}
@@ -130,7 +147,7 @@ const User = ({
         label=""
         options={K_OPTIONS}
         hideInputFilter={true}
-        selectedValues={selectedTeams}
+        selectedValues={state}
         onMultiSelect={onMultiChange()}
         onTapClose={onMultiChange()}
         isMulti
@@ -142,13 +159,9 @@ const User = ({
   );
 };
 const Profile = () => {
-  const [selectedTeams, setSelectedTeams] = useState([]);
-  function onMultiChange() {
-    return (item: any) => setSelectedTeams((prev) => xorBy(prev, [item], "id"));
-  }
   const [email, setEmail] = React.useState("");
   const dispatch = useAppDispatch();
-  const allMembers = useAppSelector((state) => state.addMember.allMember);
+  const member = useAppSelector((state) => state.addMember);
 
   const handleSendInvite = async () => {
     try {
@@ -234,12 +247,15 @@ const Profile = () => {
       >
         All User
       </CustomText>
-      <FlatList
-        data={allMembers}
-        renderItem={({ item, index }) => (
-            <User item={item} index={index} selectedTeams={selectedTeams} onMultiChange={onMultiChange} />
-        )}
-      />
+      {member.status === "loading" && (
+        <ActivityIndicator size="large" color="black" />
+      )}
+      {member.status === "idle" && (
+        <FlatList
+          data={member.allMember}
+          renderItem={({ item, index }) => <User item={item} index={index} />}
+        />
+      )}
     </SafeAreaView>
   );
 };

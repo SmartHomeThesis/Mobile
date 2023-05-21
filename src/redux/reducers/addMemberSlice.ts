@@ -4,7 +4,7 @@ import {avatarName} from "../../types";
 
 const avatars:avatarName[] =["dog_avatar","woman_avatar","man_avatar","man2_avatar"];
 export interface IPermission {
-    id_pms: number,
+    id: number,
     permission: string,
 }
 export interface IMember {
@@ -28,12 +28,26 @@ const addMemberSlice = createSlice({
         builder.addCase(registerAccount.pending, (state, action) => {
             state.status = "loading";
         })
-
+        builder.addCase(registerAccount.fulfilled, (state, action) => {
+            state.status = "idle";
+        })
+        builder.addCase(showAllUser.pending, (state, action) => {
+            state.status = "loading";
+        })
         builder.addCase(showAllUser.fulfilled, (state, action) => {
             state.status = "idle";
             state.allMember = action.payload?.data;
         })
         builder.addCase(showAllUser.rejected, (state, action) => {
+            state.status = "error";
+        })
+        builder.addCase(setPermission.pending, (state, action) => {
+            state.status = "loading"
+        })
+        builder.addCase(setPermission.fulfilled, (state, action) => {
+            state.status = "idle";
+        })
+        builder.addCase(setPermission.rejected, (state, action) => {
             state.status = "error";
         })
     }
@@ -83,5 +97,16 @@ export const showAllUser = createAsyncThunk(
             console.log("error",error)
         }
     } )
-
-export default addMemberSlice;
+export const setPermission = createAsyncThunk(
+    "addMember/setPermission",
+    async ({permission,user_id}:any, thunkAPI) => {
+        try {
+            const {data,status} = await authenService.setPermission(permission,user_id);
+            console.log("data",data)
+            return {data,status};
+        } catch (error) {
+            console.log("error",error)
+        }
+    }
+)
+export default addMemberSlice

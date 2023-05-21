@@ -39,6 +39,7 @@ const DetailDevice = ({
     if (selectedDate) {
       //   @ts-ignore
       const secondsLeft = Math.floor(selectedDate - Date.now());
+      console.log("isActive: ", isActive);
       console.log("setTimeout senconds: ", secondsLeft);
       if (secondsLeft < 0) return;
       var timerID = setTimeout(() => {

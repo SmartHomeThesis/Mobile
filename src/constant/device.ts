@@ -1,6 +1,6 @@
 import { devices } from "../types";
 
-export const LivingRoom: devices[] = [
+export const LivingRoom = [
   {
     id: 1,
     name: "Lamp",
@@ -9,7 +9,7 @@ export const LivingRoom: devices[] = [
   }
 ];
 
-export const BedRoom: devices[] = [
+export const BedRoom = [
   {
     id: 5,
     name: "Fan",
@@ -18,7 +18,7 @@ export const BedRoom: devices[] = [
   }
 ];
 
-export const ParkingGarage: devices[] = [
+export const ParkingGarage = [
   {
     id: 9,
     name: "Lamp Garage",
@@ -46,4 +46,16 @@ export const K_OPTIONS = [
 export enum deviceState {
   ON = "1",
   OFF = "0",
+}
+export  function changeRoomVietToEng(room: string) {
+  switch (room) {
+    case "Phòng khách":
+      return "Living Room";
+    case "Phòng ngủ":
+      return "Bedroom";
+    case "Nhà xe":
+      return "Parking Garage";
+    default:
+      return "Living Room";
+  }
 }
