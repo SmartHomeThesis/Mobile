@@ -5,10 +5,11 @@ import CustomText from '../CustomText';
 import {gray} from '../../styles/Colors';
 import SwitchButton from '../SwitchButton';
 
-const index = ({id, name, status, image, onPress}: devices) => {
+const index = ({id,name, feed_name, status, image, onPress}: devices) => {
+
   return (
     <TouchableOpacity style={styles.box} onPress={onPress}>
-      <View style={styles.inner}>
+      <View style={[styles.inner]}>
         <Image
           source={image}
           resizeMode="cover"
@@ -19,7 +20,7 @@ const index = ({id, name, status, image, onPress}: devices) => {
         />
         <CustomText style={styles.deviceName}>{name}</CustomText>
         <SwitchButton
-          feed={name === 'Lamp Garage' ? 'smart-home.door' : 'smart-home.light'}
+          feed={feed_name}
           style={styles.switchContainer}
           status={status}
         />
@@ -36,8 +37,8 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-    backgroundColor: 'white',
     overflow: 'hidden',
+    backgroundColor:"white",
     borderRadius: 20,
     borderColor: gray.primary,
     alignItems: 'center',

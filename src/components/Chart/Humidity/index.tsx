@@ -1,14 +1,18 @@
 import React from 'react';
 import {LineChart} from "react-native-chart-kit";
 import {Dimensions, Text, View} from "react-native";
+import CustomText from "../../../components/CustomText";
+import {gray} from "../../../styles/Colors";
 
 const Index = () =>{
     return (
-        <View>
-            <Text>Humidnity </Text>
+        <View style={{
+            flex:1,
+        }}>
+            <CustomText>Humidnity </CustomText>
             <LineChart
                 data={{
-                    labels: ["January", "February", "March", "April", "May", "June"],
+                    labels: ["9AM", "10AM", "11AM", "12PM", "13AM", "14PM","15PM", "16PM", "17PM"],
                     datasets: [
                         {
                             data: [
@@ -24,23 +28,24 @@ const Index = () =>{
                 }}
                 width={Dimensions.get("window").width - 20} // from react-native
                 height={220}
-                yAxisLabel="$"
-                yAxisSuffix="k"
+                yAxisLabel=""
+                yAxisSuffix="%"
                 yAxisInterval={1} // optional, defaults to 1
                 chartConfig={{
-                    backgroundColor: "#188396FF",
-                    backgroundGradientFrom: "#eedc19",
-                    backgroundGradientTo: "#e1a612",
+                    backgroundColor: "#ffffff",
+                    backgroundGradientFrom: "#fdfcfc",
+                    backgroundGradientTo: "#f6a56c",
                     decimalPlaces: 2, // optional, defaults to 2dp
-                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                    color: (opacity = 1) => gray.primary,
+
+                    labelColor: (opacity = 1) => gray.primary,
                     style: {
                         borderRadius: 16
                     },
                     propsForDots: {
                         r: "6",
                         strokeWidth: "2",
-                        stroke: "#1568bb"
+                        stroke: "#eedc19"
                     }
                 }}
                 bezier

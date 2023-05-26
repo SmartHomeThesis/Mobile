@@ -1,21 +1,20 @@
 import {
   View,
   Text,
-  Button,
-  TextInput,
-  StyleSheet,
   KeyboardAvoidingView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomButton from "../components/Button/CustomButton";
 import { blue, gray } from "../styles/Colors";
 import CustomInput from "../components/Input";
 import { styles } from "../styles/Authentication";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { loginAccount } from "../redux/reducers/loginSlice";
-import { API_PUBLIC_ENDPOINT } from "react-native-dotenv";
-
+import { unwrapResult } from "@reduxjs/toolkit";
+import CustomText from "../components/CustomText";
+import client from "../services/mqtt";
 const LoginScreen = ({ navigation }: { navigation: any }) => {
   const [isFocused, setIsFocused] = useState<string>("");
   const [email, setEmail] = useState<string>(
@@ -26,11 +25,34 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
   const state = useAppSelector((state) => state.login);
   const handleLogin = async () => {
     try {
-      await dispatch(loginAccount({ email, password }));
-      state.isAuthen && navigation.navigate("App");
+      const resultLogin = await dispatch(loginAccount({ email, password }));
+      const originResult = unwrapResult(resultLogin);
+      if (originResult?.status === 200) {
+        navigation.navigate("App");
+      }
     } catch (error) {
+      console.log(error);
     }
   };
+  useEffect(() => {
+    console.log("client")
+    const subcribe = async () => {
+        try {
+            await client.then((client) => {
+            client?.subscribe("HuuHanh/f/smart-home.door",0);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    subcribe();
+    return ()=> {
+      client.then((client) => {
+        client?.disconnect();
+      });
+      console.log("remove MQTTClient()")
+    }
+  }, [])
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Hi, Welcome Back!</Text>
@@ -71,12 +93,40 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
             Forgot password?
           </Text>
         </TouchableOpacity>
-        <CustomButton
-          label="Sign in"
-          onPress={handleLogin}
-          styleButton={styles.button}
-          styleText={styles.buttonText}
-        />
+        {state.status === "loading" && (
+          <CustomButton
+            onPress={handleLogin}
+            styleButton={styles.button}
+            styleText={styles.buttonText}
+          >
+            <ActivityIndicator size="small" color="white" />
+          </CustomButton>
+        )}
+        {state.status !== "loading" && (
+          <CustomButton
+            label="Sign in"
+            onPress={handleLogin}
+            styleButton={styles.button}
+            styleText={styles.buttonText}
+          />
+        )}
+        <View
+          style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
+          <CustomText>Don't have an account? </CustomText>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Text
+              style={{ fontWeight: "600", fontSize: 18, color: blue.primary }}
+            >
+              Sign up
+            </Text>
+          </TouchableOpacity>
+        </View>
       </KeyboardAvoidingView>
     </View>
   );

@@ -1,10 +1,8 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authenService } from "../../services/Authentication";
+import {getToken, storeToken} from "../../services/storage";
 
-interface LoginState {
-  isLoading: boolean;
-  isAuthen: boolean;
-}
+
 interface userType {
   id: number;
   username: string;
@@ -13,21 +11,26 @@ interface userType {
   phone: string;
   role: string;
 }
-interface loginPayload {
+interface userInfo {
+  user_reponse: userType;
+  accessToken: string
+  status: number;
+}
+interface LoginState {
+  status: "idle" | "loading" | "failed";
+  user: userInfo | Record<any, any>;
+}
+
+interface loginResponse {
   data: {
-    data: {
-      user: userType;
-      accessToken: string;
-    };
-    message: string;
-    status: string;
+    data: userInfo;
   };
   status: number;
 }
 
 const initialState: LoginState = {
-  isLoading: false,
-  isAuthen: false,
+  status: "idle",
+  user: {}
 };
 
 const loginSlice = createSlice({
@@ -36,14 +39,17 @@ const loginSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loginAccount.pending, (state, action) => {
-      state.isLoading = true;
+      state.status= "loading";
     });
     builder.addCase(loginAccount.fulfilled, (state, action) => {
+      state.status = "idle";
       if (action.payload?.status === 200) {
-        state.isAuthen = true;
-        state.isLoading = false;
+        state.user = action.payload.data
       }
     });
+    builder.addCase(loginAccount.rejected, (state, action) => {
+      state.status = "failed";
+    } );
   },
 });
 
@@ -51,11 +57,12 @@ export const loginAccount = createAsyncThunk(
   "login/loginAccount",
   async ({ email, password }: { email: string; password: string }) => {
     try {
-      const { data: Response, status } = await authenService.login(
+      const { data:{data:Response}, status }:loginResponse = await authenService.login(
         email,
         password
       );
-      return { data: Response.data, status };
+      await storeToken(Response.accessToken);
+      return { data:Response, status };
     } catch (err) {
       console.error("Error: ", err);
     }

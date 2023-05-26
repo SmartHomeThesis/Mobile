@@ -1,10 +1,6 @@
 import axios from "axios";
 import { API_ADAFRUIT_URL, API_ADAFRUIT_KEY } from "react-native-dotenv";
-
-export enum deviceState {
-  ON = "1",
-  OFF = "0",
-}
+import {deviceState} from "../../constant/device";
 
 export const deviceService = {
   getAllDevice: async (): Promise<any> => {
@@ -15,7 +11,7 @@ export const deviceService = {
     });
   },
   toggleStateDevice: async (
-    feed?: string,
+    feed: string,
     isActive?: boolean
   ): Promise<any> => {
     return axios.post(
