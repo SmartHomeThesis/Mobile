@@ -6,10 +6,10 @@ import CustomText from "../components/CustomText";
 import CustomTab from "../components/CustomTab";
 import { gray } from "../styles/Colors";
 import {
-  LivingRoom,
-  BedRoom,
-  ParkingGarage,
-  deviceState,
+    LivingRoom,
+    BedRoom,
+    ParkingGarage,
+    deviceState, feed,
 } from "../constant/device";
 import ListDevice from "../components/ListDevice";
 import Avatar from "../components/Avatar";
@@ -20,7 +20,6 @@ import {
 } from "../redux/reducers/deviceSlice";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import {client} from "../services/mqtt";
 
 interface sensorProps {
   name: string;
