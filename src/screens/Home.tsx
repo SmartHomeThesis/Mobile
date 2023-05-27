@@ -9,7 +9,7 @@ import {
     LivingRoom,
     BedRoom,
     ParkingGarage,
-    deviceState, feed,
+    deviceState, topic,
 } from "../constant/device";
 import ListDevice from "../components/ListDevice";
 import Avatar from "../components/Avatar";
@@ -20,6 +20,8 @@ import {
 } from "../redux/reducers/deviceSlice";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import {useMQTT} from "../context/MqttContext";
+import {IMqttClient} from "sp-react-native-mqtt";
 
 interface sensorProps {
   name: string;
@@ -66,19 +68,21 @@ const Sensor = ({ name, unit, param }: sensorProps) => {
   );
 };
 
+const rooms = ["Living room", "Bedroom", "Parking garage"];
 const Home = ({ navigation }: { navigation: any }) => {
   const [tab, setTab] = React.useState<number>(0);
   const dispatch = useAppDispatch();
   const device = useAppSelector((state) => state.device);
   const userLogin = useAppSelector((state) => state.login);
-    console.log("username",userLogin?.user?.user_reponse?.username)
-  const rooms = ["Living room", "Bedroom", "Parking garage"];
+  const {client,number} = useMQTT();
   useEffect(() => {
     //   Error here state equal when get all device. It not render page
     const unsubscribe = navigation.addListener("focus", async () => {
       await dispatch(getAllDevice());
+      client.publish(topic['door'], '1', 0, false)
     });
-    return () => {
+    return () =>
+    {
       dispatch(removeAllStateDevice());
       unsubscribe();
     };

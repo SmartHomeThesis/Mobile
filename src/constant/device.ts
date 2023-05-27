@@ -62,12 +62,12 @@ export  function changeRoomVietToEng(room: string) {
 interface IFeed {
     [key: string]: string;
 }
-export const feed : IFeed= {
-  door: "smart-home.door",
-  face: "smart-home.face-recognition",
-  fan: "smart-home.fan-livingroom",
-  humidity: "smart-home.humidity",
-  temperature: "smart-home.temperature",
-  light_bedroom: "smart-home.light-bedroom",
-  light_livingroom: "smart-home.light-livingroom",
+export const topic : IFeed= {
+  door: "HuuHanh/f/smart-home.door",
+  face: "HuuHanh/f/smart-home.face-recognition",
+  fan: "HuuHanh/f/smart-home.fan-livingroom",
+  humidity: "HuuHanh/f/smart-home.humidity",
+  temperature: "HuuHanh/f/smart-home.temperature",
+  light_bedroom: "HuuHanh/f/smart-home.light-bedroom",
+  light_livingroom: "HuuHanh/f/smart-home.light-livingroom",
 }

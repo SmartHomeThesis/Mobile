@@ -23,6 +23,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
   const [password, setPassword] = useState<string>("12345678");
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.login);
+
   const handleLogin = async () => {
     try {
       const resultLogin = await dispatch(loginAccount({ email, password }));
@@ -35,22 +36,9 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
     }
   };
   useEffect(() => {
-    console.log("client")
-    const subcribe = async () => {
-        try {
-            await client.then((client) => {
-            client?.subscribe("HuuHanh/f/smart-home.door",0);
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    subcribe();
+
     return ()=> {
-      client.then((client) => {
-        client?.disconnect();
-      });
-      console.log("remove MQTTClient()")
+
     }
   }, [])
   return (

@@ -1,34 +1,34 @@
-// import {
-//   View,
-//   Text,
-//   TextInput,
-//   Image,
-//   TouchableOpacity,
-//   SafeAreaView,
-//   FlatList,
-//   ActivityIndicator,
-// } from "react-native";
-// import React, { useEffect, useState } from "react";
-// import CustomText from "../components/CustomText";
-// import { styles as GlobalStyle } from "../styles/Global";
-// import CustomButton from "../components/Button/CustomButton";
-// import { gray } from "../styles/Colors";
-// import { styles } from "../styles/Authentication";
-// import { useAppDispatch, useAppSelector } from "../hooks";
-// import {
-//     IMember,
-//     IPermission,
-//     sendInviteEmail, setPermission,
-//     showAllUser,
-// } from "../redux/reducers/addMemberSlice";
-// // @ts-ignore
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import CustomText from "../components/CustomText";
+import { styles as GlobalStyle } from "../styles/Global";
+import CustomButton from "../components/Button/CustomButton";
+import { gray } from "../styles/Colors";
+import { styles } from "../styles/Authentication";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import {
+    IMember,
+    IPermission,
+    sendInviteEmail, setPermission,
+    showAllUser,
+} from "../redux/reducers/addMemberSlice";
+// @ts-ignore
 // import SelectBox from "react-native-multi-selectbox";
-// // @ts-ignore
+// @ts-ignore
 // import { xorBy } from "lodash";
-// import Toast from "react-native-toast-message";
-// import { IAvatar } from "../types";
-// import { imagesAvatar } from "../constant/image";
-// import {changeRoomVietToEng} from "../constant/device";
+import Toast from "react-native-toast-message";
+import { IAvatar } from "../types";
+import { imagesAvatar } from "../constant/image";
+import {changeRoomVietToEng} from "../constant/device";
 //
 // const K_OPTIONS = [
 //   {
