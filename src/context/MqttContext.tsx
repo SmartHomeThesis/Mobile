@@ -6,17 +6,17 @@ import {topic} from "../constant/device";
 // @ts-ignore
 interface IContextMqtt {
     client: IMqttClient | undefined,
-    number: number
+
 }
 const MQTTContext = createContext<IContextMqtt>({} as IContextMqtt);
 export function useMQTT () {
-    const {client, number} = useContext(MQTTContext);
+    const {client} = useContext(MQTTContext);
     if (!client) {
         throw new Error(
             "clientmqtt is undefined"
         );
     }
-    return {client, number}
+    return {client}
 }
 
 export const MQTTProvider = ({ children }: { children: ReactNode }) => {
@@ -34,7 +34,7 @@ export const MQTTProvider = ({ children }: { children: ReactNode }) => {
                     user: `HuuHanh`,
                     pass: `${API_ADAFRUIT_KEY}`,
                     auth: true,
-                    keepalive: 60 * 10,
+                    keepalive: 60 * 3,
                 });
                 client.on('closed', function () {
                     console.log('mqtt.event.closed');
@@ -68,15 +68,13 @@ export const MQTTProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         connectMQTT();
         return () => {
-            console.log("mqttClientRef",mqttClientRef.current)
             mqttClientRef.current?.disconnect();
-            console.log('kill client mqtt')
         };
     }, []);
 
 
     return (
-        <MQTTContext.Provider value={{ client: mqttClient, number: 1 }}>
+        <MQTTContext.Provider value={{ client: mqttClient }}>
             {children}
         </MQTTContext.Provider>
     );
