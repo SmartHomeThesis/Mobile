@@ -2,6 +2,9 @@ import React, {createContext, ReactNode, useEffect, useState, useContext, useRef
 import MQTT, {IMqttClient} from 'sp-react-native-mqtt';
 import {API_ADAFRUIT_KEY} from "react-native-dotenv";
 import {topic} from "../constant/device";
+import moment from 'moment';
+import {useAppDispatch} from "../hooks";
+import {addNewValue} from "../redux/reducers/analysisSlice";
 
 // @ts-ignore
 interface IContextMqtt {
@@ -21,6 +24,7 @@ export function useMQTT () {
 
 export const MQTTProvider = ({ children }: { children: ReactNode }) => {
     const [mqttClient, setMqttClient] = useState<IMqttClient | undefined>(undefined);
+    const dispatch = useAppDispatch()
 
     const mqttClientRef = useRef<IMqttClient>();
     async function connectMQTT() {
@@ -47,6 +51,17 @@ export const MQTTProvider = ({ children }: { children: ReactNode }) => {
                 });
                 client.on('message', function (msg) {
                     console.log('mqtt.event.message', msg);
+                    const timestamp = moment().format('HH:mm:ss');
+                    const {data,topic: t} = msg
+                    if(t === topic['temperature'] ){
+                        console.log("temperature")
+                        dispatch(addNewValue({name:"temperature",label:timestamp,data:parseFloat(data)}))
+
+                    }
+                    else if(t === topic['humidity']){
+                        console.log("humidity")
+                        dispatch(addNewValue({name:"humidity",label:timestamp,data:parseFloat(data)}))
+                    }
                 });
 
                 client.on('connect', function () {

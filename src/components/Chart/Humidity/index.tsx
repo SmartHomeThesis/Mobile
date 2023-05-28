@@ -3,8 +3,10 @@ import {LineChart} from "react-native-chart-kit";
 import {Dimensions, Text, View} from "react-native";
 import CustomText from "../../../components/CustomText";
 import {gray} from "../../../styles/Colors";
+import {useAppSelector} from "../../../hooks";
 
 const Index = () =>{
+    const humidity = useAppSelector(state => state.analysisChart.humidity)
     return (
         <View style={{
             flex:1,
@@ -12,16 +14,11 @@ const Index = () =>{
             <CustomText>Humidnity </CustomText>
             <LineChart
                 data={{
-                    labels: ["9AM", "10AM", "11AM", "12PM", "13AM", "14PM","15PM", "16PM", "17PM"],
+                    labels: [...humidity.labels],
                     datasets: [
                         {
                             data: [
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100
+                                ...humidity.datas
                             ]
                         }
                     ]

@@ -8,7 +8,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, {memo, useEffect, useState} from "react";
 import CustomText from "../components/CustomText";
 import { styles as GlobalStyle } from "../styles/Global";
 import CustomButton from "../components/Button/CustomButton";
@@ -44,17 +44,16 @@ const K_OPTIONS = [
     item: "Parking Garage",
   },
 ];
-const User = ({ item, index }: { item: IMember; index: any }) => {
+const User = memo(function ({ item, index }: { item: IMember; index: any }) {
   const [state, setState] = useState(()=>{
+      console.log("Render Item: ", item)
       let callbackfn = (item: IPermission) => {
           return {
               id: item.id,
               item: changeRoomVietToEng(item.permission),
           };
       };
-      const arr = item.permissions.map(callbackfn);
-    return arr;
-      return [];
+      return item.permissions.map(callbackfn);
   });
   const dispatch = useAppDispatch();
 
@@ -66,8 +65,7 @@ const User = ({ item, index }: { item: IMember; index: any }) => {
         // @ts-ignore
         const {status} =  await dispatch(setPermission({permission: permission, user_id:item.id })).unwrap();
         if(status === 200){
-            console.log("success")
-            setState((prev) => xorBy(prev, [rooms], "id"));
+            setState(room);
         }
     }
 
@@ -158,7 +156,7 @@ const User = ({ item, index }: { item: IMember; index: any }) => {
       />
     </View>
   );
-};
+});
 const Profile = () => {
   const [email, setEmail] = React.useState("");
   const dispatch = useAppDispatch();
@@ -179,7 +177,6 @@ const Profile = () => {
         text1: "Error create account",
         text2: "Please resend 👋",
       });
-      console.log(error);
     }
   };
   useEffect(() => {

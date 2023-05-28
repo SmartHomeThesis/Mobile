@@ -2,10 +2,12 @@ import React from 'react';
 import {LineChart} from "react-native-chart-kit";
 import {Dimensions, Text, View} from "react-native";
 import CustomText from "../../CustomText";
+import {useAppSelector} from "../../../hooks";
 
 const Index = () =>{
-    let number = Math.random() * 30;
-    let spreadElements = ["9AM", "10AM", "11AM", "12PM", "13AM", "14PM", "15PM", "16PM", "17PM"];
+    const temperature = useAppSelector(state => state.analysisChart.temperature)
+    // let number = Math.random() * 30;
+    // let spreadElements = ["9AM", "10AM", "11AM", "12PM", "13AM", "14PM", "15PM", "16PM", "17PM"];
     return (
         <View style={{
             flex:1,
@@ -13,19 +15,11 @@ const Index = () =>{
             <CustomText>Temperature </CustomText>
             <LineChart
                 data={{
-                    labels: [...spreadElements],
+                    labels: [...temperature.labels],
                     datasets: [
                         {
                             data: [
-                                number,
-                                number,
-                                number,
-                                number,
-                                number,
-                                number,
-                                number,
-                                number,
-                                number,
+                                ...temperature.datas
                             ]
                         }
                     ]
@@ -56,7 +50,12 @@ const Index = () =>{
                     marginVertical: 8,
                     borderRadius: 16,
                 }}
-            />
+                withHorizontalLabels={true}
+                withVerticalLabels={true}
+                decorator={() => {
+
+                }}
+                    />
         </View>
     )
 }
