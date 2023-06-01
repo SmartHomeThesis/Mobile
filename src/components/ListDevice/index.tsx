@@ -14,7 +14,7 @@ const index = ({id,name, feed_name, status, image, onPress}: devices) => {
           source={image}
           resizeMode="cover"
           style={{
-            width: '100%',
+            width: '80%',
             height: 140,
           }}
         />

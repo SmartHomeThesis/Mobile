@@ -27,6 +27,11 @@ const HomeStack = () => {
         name="DetailDevice"
         component={DetailDevice}
         options={{headerShown: false}}
+        // initialParams={{
+        //     isActive:
+        //     feed_name:
+        //     image:
+        // }}
       />
     </Stack.Navigator>
   );

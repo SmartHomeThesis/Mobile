@@ -7,6 +7,14 @@ import {useAppSelector} from "../../../hooks";
 
 const Index = () =>{
     const humidity = useAppSelector(state => state.analysisChart.humidity)
+    let labelHumid:string[] =[]
+    let dataHumid:number[] = [];
+    if(humidity.datas.length === 0){
+            labelHumid = ['0:00', '3:00', '6:00', '9:00', '12:00', '15:00', '18:00', '21:00']
+            dataHumid = [Math.random()*30, Math.random()*30,Math.random()*30,Math.random()*30,Math.random()*30,Math.random()*30,Math.random()*30,Math.random()*30]
+    }
+    // @ts-ignore
+    // @ts-ignore
     return (
         <View style={{
             flex:1,
@@ -14,12 +22,13 @@ const Index = () =>{
             <CustomText>Humidnity </CustomText>
             <LineChart
                 data={{
-                    labels: [...humidity.labels],
+                    labels:humidity.labels.length > 0 ? [...humidity.labels]:labelHumid,
                     datasets: [
                         {
-                            data: [
+                            // @ts-ignore
+                            data:humidity.labels.length > 0 ? [
                                 ...humidity.datas
-                            ]
+                            ]: dataHumid
                         }
                     ]
                 }}

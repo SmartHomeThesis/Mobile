@@ -24,10 +24,10 @@ const Index = () => {
                 yAxisSuffix="k"
                 chartConfig={{
                     backgroundColor: "#188396FF",
-                    backgroundGradientFrom: "white",
-                    backgroundGradientTo: "white",
+                    backgroundGradientFrom: 'white',
+                    backgroundGradientTo: 'white',
                     decimalPlaces: 2, // optional, defaults to 2dp
-                    color: (opacity = 1) => purple.primary,
+                    color: (opacity = 1) => 'black',
                     labelColor: (opacity = 1) => gray.primary,
                     style: {
                         borderRadius: 16

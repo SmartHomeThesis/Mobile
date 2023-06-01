@@ -6,8 +6,12 @@ import {useAppSelector} from "../../../hooks";
 
 const Index = () =>{
     const temperature = useAppSelector(state => state.analysisChart.temperature)
-    // let number = Math.random() * 30;
-    // let spreadElements = ["9AM", "10AM", "11AM", "12PM", "13AM", "14PM", "15PM", "16PM", "17PM"];
+    let labelTemp:string[] = []
+    let dataTemp:number[]=[]
+    if(temperature.datas.length === 0){
+             labelTemp = ['0:00', '3:00', '6:00', '9:00', '12:00', '15:00', '18:00', '21:00'],
+             dataTemp = [Math.random()*40, Math.random()*40,Math.random()*40,Math.random()*40,Math.random()*40,Math.random()*40,Math.random()*40,Math.random()*40]
+    }
     return (
         <View style={{
             flex:1,
@@ -15,12 +19,12 @@ const Index = () =>{
             <CustomText>Temperature </CustomText>
             <LineChart
                 data={{
-                    labels: [...temperature.labels],
+                    labels: temperature.labels.length >0 ? [...temperature.labels]:labelTemp,
                     datasets: [
                         {
-                            data: [
+                            data: temperature.labels.length >0 ? [
                                 ...temperature.datas
-                            ]
+                            ]:dataTemp
                         }
                     ]
                 }}

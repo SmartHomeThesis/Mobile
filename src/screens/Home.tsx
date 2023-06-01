@@ -167,6 +167,7 @@ const Home = ({ navigation }: { navigation: any }) => {
                   isActive:
                     device?.livingRoom[index]?.last_value === deviceState.ON,
                   feed_name: device?.livingRoom[index]?.key,
+                  image:item.image
                 });
               }}
             />
@@ -188,7 +189,8 @@ const Home = ({ navigation }: { navigation: any }) => {
                   id: item.id,
                   name: item.name,
                   isActive: true,
-                  feed_name: "",
+                  feed_name: item.name,
+                    image:item.image
                 });
               }}
             />
@@ -214,6 +216,7 @@ const Home = ({ navigation }: { navigation: any }) => {
                   isActive:
                     device?.parkingGarage[index]?.last_value === deviceState.ON,
                   feed_name: device?.parkingGarage[index]?.key,
+                    image:item.image
                 });
               }}
             />

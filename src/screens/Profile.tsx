@@ -46,7 +46,6 @@ const K_OPTIONS = [
 ];
 const User = memo(function ({ item, index }: { item: IMember; index: any }) {
   const [state, setState] = useState(()=>{
-      console.log("Render Item: ", item)
       let callbackfn = (item: IPermission) => {
           return {
               id: item.id,

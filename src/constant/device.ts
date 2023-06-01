@@ -6,6 +6,24 @@ export const LivingRoom = [
     name: "Lamp",
     status: false,
     image: require("../assets/images/lamp.png"),
+  },
+  {
+    id: 2,
+    name: "Televison",
+    status: false,
+    image: require("../assets/images/tivi.png"),
+  },
+  {
+    id: 3,
+    name: "Curtain",
+    status: false,
+    image: require("../assets/images/Curtain.jpg"),
+  },
+  {
+    id: 4,
+    name: "Camera",
+    status: false,
+    image: require("../assets/images/camera.png"),
   }
 ];
 
@@ -15,15 +33,55 @@ export const BedRoom = [
     name: "Fan",
     status: false,
     image: require("../assets/images/lamp_bed.png"),
+  },
+  {
+    id: 6,
+    name: "Air Puriffier",
+    status: false,
+    image: require("../assets/images/maylockhongkhi.png"),
+  },
+  {
+    id: 7,
+    name: "Curtain",
+    status: false,
+    image: require("../assets/images/remphongngu.png"),
+  },
+  {
+    id: 8,
+    name: "Refregerator",
+    status: false,
+    image: require("../assets/images/tulanh.png"),
   }
+
 ];
 
 export const ParkingGarage = [
   {
     id: 9,
+    name: "Door Garage",
+    status: false,
+    image: require("../assets/images/cuacuon.png"),
+  },
+  {
+
+    id: 10,
     name: "Lamp Garage",
-    status: true,
+    status: false,
     image: require("../assets/images/lamp_gara.png"),
+  },
+  {
+
+    id: 11,
+    name: "Camera",
+    status: false,
+    image: require("../assets/images/cameragarage.png"),
+  },
+  {
+
+    id: 12,
+    name: "Aluminum",
+    status: false,
+    image: require("../assets/images/bell.png"),
   }
 ];
 

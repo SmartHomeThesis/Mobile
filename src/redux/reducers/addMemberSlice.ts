@@ -48,6 +48,11 @@ const addMemberSlice = createSlice({
             state.status = "idle";
             // const {permission,user_id} = action.payload;
             // state.permission = permission;
+            state.allMember.forEach((member) => {
+                if (member.id === action.payload?.data?.id) {
+                    member.permissions = action.payload.data.permissions;
+                }
+            })
         })
         builder.addCase(setPermission.rejected, (state, action) => {
             state.status = "error";
@@ -103,9 +108,9 @@ export const setPermission = createAsyncThunk(
     "addMember/setPermission",
     async ({permission,user_id}:any, thunkAPI) => {
         try {
-            const {data,status} = await authenService.setPermission(permission,user_id)
-            console.log("set permission result: " + JSON.stringify(data));
-            return {data,status }
+            const {data:{data:ResponseData},status} = await authenService.setPermission(permission,user_id)
+            console.log("set permission result: " + ResponseData);
+            return {data:ResponseData,status }
         } catch (error) {
             console.log("error",error)
         }
