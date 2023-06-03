@@ -26,6 +26,10 @@ import photo from '../assets/images/photo.jpg';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useAppSelector} from "../hooks";
+import {gray} from "../styles/Colors";
+import {removeToken} from "../services/storage";
+import {userLogin} from "../redux/Selector/userSelector";
+import {imagesAvatar} from "../constant/image";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -52,11 +56,12 @@ const HomeStack = () => {
   );
 };
 
-const BottomTab = () => {
+const BottomTab = ({navigation}:{navigation: any}) => {
   const [currentTab, setCurrentTab] = useState("Home");
   // To get the curretn Status of menu ...
   const [showMenu, setShowMenu] = useState(false);
-
+  const userLogin = useAppSelector((state) => state.login);
+  console.log("userLogin", userLogin);
   // Animated Properties...
 
   const offsetValue = useRef(new Animated.Value(0)).current;
@@ -67,7 +72,7 @@ const BottomTab = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{justifyContent: 'flex-start', padding: 15}}>
-        <Image source={profile} style={{
+        <Image source={imagesAvatar['man_avatar']} style={{
           width: 60,
           height: 60,
           borderRadius: 10,
@@ -79,7 +84,7 @@ const BottomTab = () => {
           fontWeight: 'bold',
           color: 'white',
           marginTop: 20
-        }}>Jenna Ezarik</Text>
+        }}>{userLogin?.user.user_reponse.username}</Text>
 
         <TouchableOpacity>
           <Text style={{
@@ -100,7 +105,7 @@ const BottomTab = () => {
         </View>
 
         <View>
-          {TabButton(currentTab, setCurrentTab, "LogOut", logout)}
+          {TabButton(currentTab, setCurrentTab, "LogOut", logout,navigation)}
         </View>
 
       </View>
@@ -112,7 +117,7 @@ const BottomTab = () => {
       <Animated.View style={{
         flexGrow: 1,
         height: '100%',
-        backgroundColor: 'white',
+        backgroundColor: gray.background,
         position: 'absolute',
         top: 0,
         bottom: 0,
@@ -169,7 +174,8 @@ const BottomTab = () => {
               width: 20,
               height: 20,
               tintColor: 'black',
-              marginTop: 40,
+              marginTop: showMenu ? 40 : 10,
+              marginLeft: 16,
 
             }}></Image>
 
@@ -226,12 +232,16 @@ const getTabBarVisibility = (route: any) => {
   return 'flex';
 };
 // For multiple Buttons...
-const TabButton = (currentTab: string, setCurrentTab: any, title: string, image: any) => {
+const TabButton = (currentTab: string, setCurrentTab: any, title: string, image: any,navigation:any = "") => {
   return (
 
     <TouchableOpacity onPress={() => {
       if (title == "LogOut") {
         // Do your Stuff...
+        console.log("Logout and clear token")
+        navigation.navigate("Login")
+        removeToken()
+
       } else {
         setCurrentTab(title)
       }

@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, ScrollView, Image} from "react-native";
+import {View, Text, StyleSheet, ScrollView, Image, ActivityIndicator} from "react-native";
 import React, {useEffect} from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {styles as stylesGlobal} from "../styles/Global";
@@ -80,7 +80,6 @@ const Home = ({navigation}: { navigation: any }) => {
   const user_id = useAppSelector((state) => state.login.user.user_reponse.id)
   const permission = useAppSelector((state) => state.login.permission)
   const isHost = useAppSelector(state => state?.login?.user?.user_reponse?.role === "Host")
-
   const {client} = useMQTT();
 
   useEffect(() => {
@@ -149,7 +148,11 @@ const Home = ({navigation}: { navigation: any }) => {
       />
       <Sensor name="Humidity" unit="%" param={device.humidity.last_value}/>
       <CustomTab selectionMode={0} onSelectSwitch={setTab} listTab={rooms} permisson={permission}/>
-      {tab === 0 && (
+      {
+        userLogin.status === "loading" &&
+          <ActivityIndicator size="large" color="black" />
+      }
+      {userLogin.status === "idle" && tab === 0 && permission?.includes(tab+1) && (
         <View style={styles.boxContainer}>
           {LivingRoom.map((item, index) => (
             <ListDevice
@@ -173,7 +176,7 @@ const Home = ({navigation}: { navigation: any }) => {
           ))}
         </View>
       )}
-      {tab === 1 && (
+      {userLogin.status === "idle" && tab === 1 && permission?.includes(tab+1) && (
         <View style={styles.boxContainer}>
           {BedRoom.map((item, index) => (
             <ListDevice
@@ -197,7 +200,7 @@ const Home = ({navigation}: { navigation: any }) => {
           ))}
         </View>
       )}
-      {tab === 2 && (
+      {userLogin.status === "idle" && tab === 2 && permission?.includes(tab+1) && (
         <View style={styles.boxContainer}>
           {ParkingGarage.map((item, index) => (
             <ListDevice

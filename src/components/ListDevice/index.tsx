@@ -18,7 +18,7 @@ const index = ({id,name, feed_name, status, image, onPress,online}: devices) => 
           resizeMode="cover"
           style={{
             width: '80%',
-            height: 140,
+            height: 120,
           }}
         />
         <CustomText style={styles.deviceName}>{name}</CustomText>

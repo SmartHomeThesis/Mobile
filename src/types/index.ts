@@ -7,7 +7,6 @@ export interface devices {
   image: any;
   onPress?: () => void;
   online:boolean;
-  feed_name:string;
 }
 export interface users {
   id: number;
