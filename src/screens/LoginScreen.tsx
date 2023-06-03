@@ -14,7 +14,6 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { loginAccount } from "../redux/reducers/loginSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import CustomText from "../components/CustomText";
-import client from "../services/mqtt";
 const LoginScreen = ({ navigation }: { navigation: any }) => {
   const [isFocused, setIsFocused] = useState<string>("");
   const [email, setEmail] = useState<string>(

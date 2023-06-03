@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   FlatList,
-  ActivityIndicator,
+  ActivityIndicator, ScrollView,
 } from "react-native";
 import React, {memo, useEffect, useState} from "react";
 import CustomText from "../components/CustomText";
@@ -163,13 +163,15 @@ const Profile = () => {
 
   const handleSendInvite = async () => {
     try {
-      await dispatch(sendInviteEmail(email));
-      Toast.show({
-        type: "success",
-        text1: "Success create account",
-        text2: "Check OTP has sent to email recent 👋",
-      });
-      setEmail("");
+      const originalResult =  await dispatch(sendInviteEmail(email)).unwrap();
+      if(originalResult?.status === 200) {
+        Toast.show({
+          type: "success",
+          text1: "Success create account",
+          text2: "Check OTP has sent to email recent 👋",
+        });
+        setEmail("");
+      }
     } catch (error) {
       Toast.show({
         type: "error",

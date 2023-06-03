@@ -7,6 +7,8 @@ import CustomButton from "../components/Button";
 import { gray } from "../styles/Colors";
 import {registerAccount} from "../redux/reducers/addMemberSlice";
 import {useAppDispatch} from "../hooks";
+import Toast from "react-native-toast-message";
+import {unwrapResult} from "@reduxjs/toolkit";
 interface otpProps {
   navigation: any;
   route: any;
@@ -23,11 +25,39 @@ const OtpVerify = ({ navigation, route }: otpProps) => {
   const handleRegister = async () => {
     const otp = opt1 + opt2 + opt3 + opt4 + opt5 + opt6;
     try{
-    await  dispatch(registerAccount({username, email, phone, password, otp}))
-      navigation.navigate("Login")
+     const resultRegister=  await  dispatch(registerAccount({username, email, phone, password, otp}))
+      const orginalData = unwrapResult(resultRegister)
+      if (orginalData?.status === 200) {
+        navigation.navigate("Login")
+        Toast.show({
+          type: "success",
+          text1: "Your account has been created",
+          visibilityTime: 2000,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        })
+      }
+      Toast.show({
+        type: "error",
+        text1: "Please check your OTP code again",
+        visibilityTime: 2000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
+
     }
     catch (err){
       console.log(err)
+      Toast.show({
+        type: "error",
+        text1: "Please check your OTP code again",
+        visibilityTime: 2000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
     }
   };
   return (

@@ -63,10 +63,11 @@ export const sendInviteEmail = createAsyncThunk(
     "addMember/sendInviteEmail",
     async (email: string, thunkAPI) => {
         try {
-            const {data} = await authenService.sendInviteEmail(email);
-            return data;
+            const {data,status} = await authenService.sendInviteEmail(email);
+            return {data,status};
         } catch (error) {
-            console.log("error",error)
+            if (error instanceof Error)
+                return thunkAPI.rejectWithValue(error.message);
         }
     }
 )
@@ -81,13 +82,11 @@ export const registerAccount = createAsyncThunk(
     "addMember/registerAccount",
     async ({username,email,phone,password,otp}:IRegisterAccount, thunkAPI) => {
         try {
-            console.log(username,email,phone,password,otp);
             const {data,status} = await authenService.register({username,email,phone,password,otp});
-
             return {data,status};
         } catch (error) {
-            // return thunkAPI.rejectWithValue(error.response);
-            console.log("error",error)
+            if (error instanceof Error)
+                return thunkAPI.rejectWithValue(error.message);
         }
     }
 )

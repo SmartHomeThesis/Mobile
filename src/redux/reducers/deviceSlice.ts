@@ -95,7 +95,7 @@ export const getAllDevice = createAsyncThunk(
                 temperature:responseData.Temperature,
                 livingRoom:[responseData.Light_Livingroom],
                 bedRoom:[responseData.Light_Bedroom],
-                parkingGarage:[responseData.Light_Bedroom]
+                parkingGarage:[responseData.Door]
             }
         } catch (err) {
             console.error("Error: ", err);

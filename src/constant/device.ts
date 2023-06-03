@@ -1,29 +1,34 @@
-import { devices } from "../types";
+import {devices} from "../types";
 
-export const LivingRoom = [
+
+export const LivingRoom:devices[]= [
   {
     id: 1,
     name: "Lamp",
     status: false,
     image: require("../assets/images/lamp.png"),
+      online:true,
   },
   {
     id: 2,
     name: "Televison",
     status: false,
     image: require("../assets/images/tivi.png"),
+      online:false
   },
   {
     id: 3,
     name: "Curtain",
     status: false,
     image: require("../assets/images/Curtain.jpg"),
+      online:false
   },
   {
     id: 4,
     name: "Camera",
     status: false,
     image: require("../assets/images/camera.png"),
+      online:false
   }
 ];
 
@@ -33,24 +38,28 @@ export const BedRoom = [
     name: "Fan",
     status: false,
     image: require("../assets/images/lamp_bed.png"),
+      online:true
   },
   {
     id: 6,
     name: "Air Puriffier",
     status: false,
     image: require("../assets/images/maylockhongkhi.png"),
+      online:false
   },
   {
     id: 7,
     name: "Curtain",
     status: false,
     image: require("../assets/images/remphongngu.png"),
+      online:false
   },
   {
     id: 8,
     name: "Refregerator",
     status: false,
     image: require("../assets/images/tulanh.png"),
+      online:false
   }
 
 ];
@@ -61,6 +70,7 @@ export const ParkingGarage = [
     name: "Door Garage",
     status: false,
     image: require("../assets/images/cuacuon.png"),
+      online:true
   },
   {
 
@@ -68,6 +78,7 @@ export const ParkingGarage = [
     name: "Lamp Garage",
     status: false,
     image: require("../assets/images/lamp_gara.png"),
+      online:false
   },
   {
 
@@ -75,6 +86,7 @@ export const ParkingGarage = [
     name: "Camera",
     status: false,
     image: require("../assets/images/cameragarage.png"),
+      online:false
   },
   {
 
@@ -82,6 +94,7 @@ export const ParkingGarage = [
     name: "Aluminum",
     status: false,
     image: require("../assets/images/bell.png"),
+      online:false
   }
 ];
 
