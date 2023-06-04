@@ -8,9 +8,10 @@ import BottomTab from "./BottomTabNavigator";
 import IntroScreen from "../screens/IntroScreen";
 import SignUp from "../screens/SignUp";
 import OTPVerify from "../screens/OTPVerify";
-
+import {useAppSelector} from "../hooks";
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Intro" component={IntroScreen} />

@@ -126,13 +126,17 @@ const index = ({
               <TouchableOpacity
                 key={index}
                 style={{
-                  backgroundColor: status
-                    ? "white"
-                    : gray.tertiary,
-                  borderRadius: 20,
-                  marginLeft: 10,
+                    backgroundColor: status && item.online
+                        ? "white"
+                        : gray.tertiary,
+                    borderRadius: 20,
+                    marginLeft: 10,
+                    overflow: "hidden"
+
+
                 }}
                 onPress={ handleDevicePress}
+                disabled={!item.online}
               >
                 <Image
                   source={item.image}

@@ -13,16 +13,16 @@ const Analysis = () => {
       style={{
         flex: 1,
         alignItems: "center",
+        marginTop:20
       }}
     >
         <View style={{
             backgroundColor: "white",
-            borderBottomLeftRadius: 20,
-            borderBottomRightRadius: 20,
+            borderRadius: 20,
             width: "100%",
             marginBottom: 40,
         }}>
-      <CustomTab selectionMode={0} onSelectSwitch={setTab} listTab={charts} />
+      <CustomTab selectionMode={0} onSelectSwitch={setTab} listTab={charts} permisson={[1,2]} />
         </View>
       {tab === 0 ? (
         <Electricity />

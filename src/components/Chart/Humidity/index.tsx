@@ -3,8 +3,18 @@ import {LineChart} from "react-native-chart-kit";
 import {Dimensions, Text, View} from "react-native";
 import CustomText from "../../../components/CustomText";
 import {gray} from "../../../styles/Colors";
+import {useAppSelector} from "../../../hooks";
 
 const Index = () =>{
+    const humidity = useAppSelector(state => state.analysisChart.humidity)
+    let labelHumid:string[] =[]
+    let dataHumid:number[] = [];
+    if(humidity.datas.length === 0){
+            labelHumid = ['0:00', '3:00', '6:00', '9:00', '12:00', '15:00', '18:00', '21:00']
+            dataHumid = [Math.random()*30, Math.random()*30,Math.random()*30,Math.random()*30,Math.random()*30,Math.random()*30,Math.random()*30,Math.random()*30]
+    }
+    // @ts-ignore
+    // @ts-ignore
     return (
         <View style={{
             flex:1,
@@ -12,17 +22,13 @@ const Index = () =>{
             <CustomText>Humidnity </CustomText>
             <LineChart
                 data={{
-                    labels: ["9AM", "10AM", "11AM", "12PM", "13AM", "14PM","15PM", "16PM", "17PM"],
+                    labels:humidity.labels.length > 0 ? [...humidity.labels]:labelHumid,
                     datasets: [
                         {
-                            data: [
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100
-                            ]
+                            // @ts-ignore
+                            data:humidity.labels.length > 0 ? [
+                                ...humidity.datas
+                            ]: dataHumid
                         }
                     ]
                 }}

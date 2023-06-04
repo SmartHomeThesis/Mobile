@@ -46,6 +46,13 @@ const addMemberSlice = createSlice({
         })
         builder.addCase(setPermission.fulfilled, (state, action) => {
             state.status = "idle";
+            // const {permission,user_id} = action.payload;
+            // state.permission = permission;
+            state.allMember.forEach((member) => {
+                if (member.id === action.payload?.data?.id) {
+                    member.permissions = action.payload.data.permissions;
+                }
+            })
         })
         builder.addCase(setPermission.rejected, (state, action) => {
             state.status = "error";
@@ -56,10 +63,11 @@ export const sendInviteEmail = createAsyncThunk(
     "addMember/sendInviteEmail",
     async (email: string, thunkAPI) => {
         try {
-            const {data} = await authenService.sendInviteEmail(email);
-            return data;
+            const {data,status} = await authenService.sendInviteEmail(email);
+            return {data,status};
         } catch (error) {
-            console.log("error",error)
+            if (error instanceof Error)
+                return thunkAPI.rejectWithValue(error.message);
         }
     }
 )
@@ -74,13 +82,11 @@ export const registerAccount = createAsyncThunk(
     "addMember/registerAccount",
     async ({username,email,phone,password,otp}:IRegisterAccount, thunkAPI) => {
         try {
-            console.log(username,email,phone,password,otp);
             const {data,status} = await authenService.register({username,email,phone,password,otp});
-
             return {data,status};
         } catch (error) {
-            // return thunkAPI.rejectWithValue(error.response);
-            console.log("error",error)
+            if (error instanceof Error)
+                return thunkAPI.rejectWithValue(error.message);
         }
     }
 )
@@ -101,9 +107,9 @@ export const setPermission = createAsyncThunk(
     "addMember/setPermission",
     async ({permission,user_id}:any, thunkAPI) => {
         try {
-            const {data,status} = await authenService.setPermission(permission,user_id);
-            console.log("data",data)
-            return {data,status};
+            const {data:{data:ResponseData},status} = await authenService.setPermission(permission,user_id)
+            console.log("set permission result: " + ResponseData);
+            return {data:ResponseData,status }
         } catch (error) {
             console.log("error",error)
         }

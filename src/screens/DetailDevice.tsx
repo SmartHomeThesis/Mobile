@@ -19,7 +19,7 @@ const DetailDevice = ({
   navigation: any;
   route: any;
 }) => {
-  const { isActive, feed_name } = route.params;
+  const { isActive, feed_name,image } = route.params;
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
   const dispatch = useAppDispatch();
@@ -152,7 +152,7 @@ const DetailDevice = ({
             }}
           >
             <Image
-              source={require("../assets/images/lamp.png")}
+              source={image}
               resizeMode="cover"
               style={{
                 width: "100%",

@@ -18,16 +18,16 @@ const Index = () => {
         <>
             <BarChart
                 data={data}
-                width={Dimensions.get("window").width} // from react-native
+                width={Dimensions.get("window").width -20} // from react-native
                 height={220}
                 yAxisLabel="$"
                 yAxisSuffix="k"
                 chartConfig={{
                     backgroundColor: "#188396FF",
-                    backgroundGradientFrom: "white",
-                    backgroundGradientTo: "white",
+                    backgroundGradientFrom: 'white',
+                    backgroundGradientTo: 'white',
                     decimalPlaces: 2, // optional, defaults to 2dp
-                    color: (opacity = 1) => purple.primary,
+                    color: (opacity = 1) => 'black',
                     labelColor: (opacity = 1) => gray.primary,
                     style: {
                         borderRadius: 16

@@ -2,10 +2,16 @@ import React from 'react';
 import {LineChart} from "react-native-chart-kit";
 import {Dimensions, Text, View} from "react-native";
 import CustomText from "../../CustomText";
+import {useAppSelector} from "../../../hooks";
 
 const Index = () =>{
-    let number = Math.random() * 30;
-    let spreadElements = ["9AM", "10AM", "11AM", "12PM", "13AM", "14PM", "15PM", "16PM", "17PM"];
+    const temperature = useAppSelector(state => state.analysisChart.temperature)
+    let labelTemp:string[] = []
+    let dataTemp:number[]=[]
+    if(temperature.datas.length === 0){
+             labelTemp = ['0:00', '3:00', '6:00', '9:00', '12:00', '15:00', '18:00', '21:00'],
+             dataTemp = [Math.random()*40, Math.random()*40,Math.random()*40,Math.random()*40,Math.random()*40,Math.random()*40,Math.random()*40,Math.random()*40]
+    }
     return (
         <View style={{
             flex:1,
@@ -13,20 +19,12 @@ const Index = () =>{
             <CustomText>Temperature </CustomText>
             <LineChart
                 data={{
-                    labels: [...spreadElements],
+                    labels: temperature.labels.length >0 ? [...temperature.labels]:labelTemp,
                     datasets: [
                         {
-                            data: [
-                                number,
-                                number,
-                                number,
-                                number,
-                                number,
-                                number,
-                                number,
-                                number,
-                                number,
-                            ]
+                            data: temperature.labels.length >0 ? [
+                                ...temperature.datas
+                            ]:dataTemp
                         }
                     ]
                 }}
@@ -56,7 +54,12 @@ const Index = () =>{
                     marginVertical: 8,
                     borderRadius: 16,
                 }}
-            />
+                withHorizontalLabels={true}
+                withVerticalLabels={true}
+                decorator={() => {
+
+                }}
+                    />
         </View>
     )
 }

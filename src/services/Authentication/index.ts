@@ -15,6 +15,9 @@ export const authenService = {
   showAllUser: async (): Promise<any> => {
     return useApi().get("/api/users");
   },
+    getPermisson: async (user_id:number): Promise<any> => {
+    return useApi().get(`/api/users/${user_id}/permissions`);
+    },
   setPermission: async (payload: any,user_id:number): Promise<any> => {
     console.log("payload",payload, user_id)
     return useApi().post(`/api/users/${user_id}/permissions`, {

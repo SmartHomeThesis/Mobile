@@ -1,0 +1,1 @@
+http://localhost:8081/D:\Workspace\React Native\smarthomeapp\src\screens\Profile.tsx

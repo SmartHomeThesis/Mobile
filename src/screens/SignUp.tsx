@@ -7,11 +7,11 @@ import { styles } from "../styles/Authentication";
 import { styles as GlobalStyle } from "../styles/Global";
 
 const SignUp = ({ navigation }: { navigation: any }) => {
-  const [isFocused, setIsFocused] = useState<string>("");
-  const [email, setEmail] = useState<string>("kingnamland@gmail.com");
-  const [password, setPassword] = useState<string>("1234567");
-  const [username, setUsername] = useState<string>("NAMLB");
-  const [phone, setPhone] = useState<string>("0123321123");
+  const [isFocused, setIsFocused] = useState<string>("")
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  const [username, setUsername] = useState<string>("")
+  const [phone, setPhone] = useState<string>("")
 
   return (
     <ScrollView style={GlobalStyle.container}>

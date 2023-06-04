@@ -19,6 +19,7 @@ interface userInfo {
 interface LoginState {
   status: "idle" | "loading" | "failed";
   user: userInfo | Record<any, any>;
+  permission: number[]
 }
 
 interface loginResponse {
@@ -30,7 +31,8 @@ interface loginResponse {
 
 const initialState: LoginState = {
   status: "idle",
-  user: {}
+  user: {},
+  permission:[]
 };
 
 const loginSlice = createSlice({
@@ -50,6 +52,15 @@ const loginSlice = createSlice({
     builder.addCase(loginAccount.rejected, (state, action) => {
       state.status = "failed";
     } );
+    builder.addCase(getPermission.pending, (state, action) => {
+      state.status= "loading";
+    })
+    builder.addCase(getPermission.fulfilled, (state, action) => {
+      state.status = "idle";
+      if (action.payload?.status === 200) {
+        state.permission = action.payload?.data.permissions.map((item:any)=>item.id)
+      }
+    })
   },
 });
 
@@ -61,6 +72,7 @@ export const loginAccount = createAsyncThunk(
         email,
         password
       );
+      console.log("status", status);
       await storeToken(Response.accessToken);
       return { data:Response, status };
     } catch (err) {
@@ -68,5 +80,16 @@ export const loginAccount = createAsyncThunk(
     }
   }
 );
-
+export const getPermission = createAsyncThunk(
+    "login/getPermission",
+    async ({user_id}:{user_id:number}) => {
+        try {
+            const { data:{data:Response}, status }= await authenService.getPermisson(
+                user_id
+            );
+            return { data:Response, status };
+        } catch (err) {
+            console.error("Error: ", err);
+        }
+    })
 export default loginSlice;
