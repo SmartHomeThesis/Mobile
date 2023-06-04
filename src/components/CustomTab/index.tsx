@@ -1,17 +1,31 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { gray } from "../../styles/Colors";
+import Toast from "react-native-toast-message";
 
 const index = ({
   selectionMode,
   onSelectSwitch,
   listTab,
+  permisson,
 }: {
   selectionMode: number;
   onSelectSwitch: Function;
   listTab: Array<string>;
+  permisson:Array<number>
 }) => {
   const [selected, setSelected] = React.useState<number>(selectionMode);
+  const AlertPermission = () => {
+      Toast.show({
+        type: "error",
+        text1: "Permission denied",
+        text2: "You don't have permission to access this room",
+        visibilityTime: 2000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
+  }
   return (
     <View
       style={{
@@ -23,6 +37,10 @@ const index = ({
       {listTab.map((room, index) => (
         <TouchableOpacity
           onPress={() => {
+            if(!permisson?.includes(index+1)) {
+              AlertPermission();
+              return;
+            }
             setSelected(index);
             onSelectSwitch(index);
           }}
@@ -30,8 +48,9 @@ const index = ({
           style={{
             paddingVertical: 16,
           }}
+          // disabled={!permisson?.includes(index+1)}
         >
-          <View>
+           <View>
             <Text
               style={{
                 color: selected === index ? "black" : gray.primary,

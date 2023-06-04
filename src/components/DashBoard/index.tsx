@@ -4,12 +4,14 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
-} from 'react-native';
-import React, {useState} from 'react';
-import {devices} from '../../types';
-import {gray, orange} from '../../styles/Colors';
-import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
-import CustomText from '../CustomText';
+} from "react-native";
+import React, { useState } from "react";
+import { devices } from "../../types";
+import { gray, orange } from "../../styles/Colors";
+import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
+import CustomText from "../CustomText";
+import {useAppDispatch} from "../../hooks";
+import {toggleDevice} from "../../redux/reducers/deviceSlice";
 
 interface DashBoardProps {
   name: string;
@@ -17,6 +19,8 @@ interface DashBoardProps {
   imageRoom: any;
   listDevice: Array<devices>;
   temperature: number;
+  feed_name: string;
+  status: boolean;
 }
 
 const index = ({
@@ -25,29 +29,29 @@ const index = ({
   imageRoom,
   listDevice,
   temperature,
+  feed_name,
+    status,
 }: DashBoardProps) => {
-  const [device, setDevice] = useState([
-    {
-      id: listDevice[0].id,
-      status: listDevice[0].status,
-    },
-  ]);
-
+  const dispatch = useAppDispatch()
+  const handleDevicePress = () => {
+    dispatch(toggleDevice({feed: feed_name, isActive: status}))
+  }
   return (
     <View
       style={{
         borderRadius: 25,
-        overflow: 'hidden',
+        overflow: "hidden",
         flex: 1 / 3,
-        position: 'relative',
+        position: "relative",
         marginVertical: 16,
-      }}>
+      }}
+    >
       <ImageBackground
         source={imageRoom}
         resizeMode="cover"
         style={{
           flex: 1 / 3,
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           bottom: 0,
           left: 0,
@@ -59,37 +63,42 @@ const index = ({
           paddingTop: 20,
           paddingLeft: 20,
           flex: 1,
-          justifyContent: 'space-between',
-        }}>
+          justifyContent: "space-between",
+        }}
+      >
         <View>
           <Text
             style={{
-              color: 'white',
+              color: "white",
               fontSize: 24,
-              fontWeight: 'bold',
-            }}>
+              fontWeight: "bold",
+            }}
+          >
             {name}
           </Text>
           <Text
             style={{
               color: gray.primary,
-            }}>
+            }}
+          >
             {numdevice} / {numdevice} is on
           </Text>
         </View>
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginBottom: 15,
-          }}>
+          }}
+        >
           <View
             style={{
-              flexDirection: 'row',
-              backgroundColor: 'white',
+              flexDirection: "row",
+              backgroundColor: "white",
               borderRadius: 20,
               padding: 10,
-              alignItems: 'center',
-            }}>
+              alignItems: "center",
+            }}
+          >
             <IconMaterial
               name="waves"
               size={20}
@@ -105,10 +114,11 @@ const index = ({
             <CustomText
               style={{
                 fontSize: 18,
-                fontWeight: 'bold',
-              }}>
+                fontWeight: "bold",
+              }}
+            >
               {temperature}
-              {'°'}
+              {"°"}
             </CustomText>
           </View>
           {listDevice.map((item, index) => {
@@ -116,24 +126,18 @@ const index = ({
               <TouchableOpacity
                 key={index}
                 style={{
-                  backgroundColor:
-                    device[index].status === true ? 'white' : gray.tertiary,
-                  borderRadius: 20,
-                  marginLeft: 10,
+                    backgroundColor: status && item.online
+                        ? "white"
+                        : gray.tertiary,
+                    borderRadius: 20,
+                    marginLeft: 10,
+                    overflow: "hidden"
+
+
                 }}
-                onPress={() => {
-                  setDevice(
-                    device.map(item => {
-                      if (item.id === listDevice[index].id) {
-                        return {
-                          ...item,
-                          status: !item.status,
-                        };
-                      }
-                      return item;
-                    }),
-                  );
-                }}>
+                onPress={ handleDevicePress}
+                disabled={!item.online}
+              >
                 <Image
                   source={item.image}
                   resizeMode="cover"
