@@ -36,8 +36,8 @@ const Room = () => {
           imageRoom={require("../assets/images/bedroom.jpg")}
           temperature={33}
           listDevice={BedRoom}
-          feed_name={""}
-          status={true}
+          feed_name={devices?.bedRoom[0]?.key}
+          status={devices?.bedRoom[0]?.last_value === deviceState.ON}
         />
       }
       {
