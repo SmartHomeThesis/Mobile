@@ -9,7 +9,7 @@ import {
   LivingRoom,
   BedRoom,
   ParkingGarage,
-  deviceState
+  deviceState, topic
 } from "../constant/device";
 import ListDevice from "../components/ListDevice";
 import {useAppDispatch, useAppSelector} from "../hooks";
@@ -81,7 +81,6 @@ const Home = ({navigation}: { navigation: any }) => {
   const permission = useAppSelector((state) => state.login.permission)
   const isHost = useAppSelector(state => state?.login?.user?.user_reponse?.role === "Host")
   const {client} = useMQTT();
-
   useEffect(() => {
     //   Error here state equal when get all device. It not render page
     const unsubscribe = navigation.addListener("focus", async () => {

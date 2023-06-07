@@ -61,7 +61,6 @@ const BottomTab = ({navigation}:{navigation: any}) => {
   // To get the curretn Status of menu ...
   const [showMenu, setShowMenu] = useState(false);
   const userLogin = useAppSelector((state) => state.login);
-  console.log("userLogin", userLogin);
   // Animated Properties...
 
   const offsetValue = useRef(new Animated.Value(0)).current;

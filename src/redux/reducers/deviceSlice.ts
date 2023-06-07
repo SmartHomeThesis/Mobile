@@ -37,6 +37,19 @@ const deviceSlice = createSlice({
         removeAllStateDevice: (state) => {
             state.livingRoom = [];
             state.parkingGarage = [];
+        },
+        updateStateDevice: (state, action) => {
+          const {feed_key, state: value} = action.payload;
+            if(state.livingRoom[0]?.key === feed_key){
+                state.livingRoom[0].last_value =  value;
+            }
+            else if(state.bedRoom[0]?.key === feed_key){
+                state.bedRoom[0].last_value =  value;
+            }
+            else if(state.parkingGarage[0]?.key === feed_key){
+                state.parkingGarage[0].last_value =  value;
+            }
+
         }
     },
     extraReducers: (builder) => {
@@ -115,5 +128,5 @@ export const toggleDevice = createAsyncThunk(
     }
 );
 
-export const {removeAllStateDevice} = deviceSlice.actions;
+export const {removeAllStateDevice,updateStateDevice} = deviceSlice.actions;
 export default deviceSlice;

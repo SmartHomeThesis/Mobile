@@ -6,8 +6,10 @@ import store from "./src/redux/store";
 import Toast from "react-native-toast-message";
 import {MQTTProvider} from "./src/context/MqttContext";
 const Stack = createNativeStackNavigator();
+import {LogBox} from 'react-native';
 
 const App = () => {
+  LogBox.ignoreAllLogs()
     return (
         <Provider store={store}>
             <MQTTProvider>

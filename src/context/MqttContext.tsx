@@ -5,6 +5,7 @@ import {topic} from "../constant/device";
 import moment from 'moment';
 import {useAppDispatch} from "../hooks";
 import {addNewValue} from "../redux/reducers/analysisSlice";
+import {updateStateDevice} from "../redux/reducers/deviceSlice";
 
 // @ts-ignore
 interface IContextMqtt {
@@ -61,6 +62,9 @@ export const MQTTProvider = ({ children }: { children: ReactNode }) => {
                     else if(t === topic['humidity']){
                         console.log("humidity")
                         dispatch(addNewValue({name:"humidity",label:timestamp,data:parseFloat(data)}))
+                    }
+                    else if(t === topic['door'] || t === topic['light_bedroom'] || t === topic['light_livingroom']){
+                        dispatch(updateStateDevice({feed_key:t.substring(10),state:data}))
                     }
                 });
 
