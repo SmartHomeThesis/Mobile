@@ -4,22 +4,22 @@
 ## Demo Screenshots
 
 ### Homepage
-![Homepage](./demo/Introsc.png)
+<img src="./demo/Introsc.png" alt="Homepage" width="200"/>
 
 ### Login
-![Login](./demo/Loginsc.png)
+<img src="./demo/Loginsc.png" alt="Login" width="200"/>
 
 ### Dashboard 
-![Dashboard](./demo/Homesc.png)
+<img src="./demo/Homesc.png" alt="Dashboard" width="200"/>
 
 ### Overview
-![Electricity](./demo/Dashboardsc.png)
+<img src="./demo/Dashboardsc.png" alt="Overview" width="200"/>
 
 ### Control Time Screen
-![Electricity](./demo/setDatesc.png)
+<img src="./demo/setDatesc.png" alt="Control Time Screen" width="200"/>
 
 ### Temperature and Humidity Chart
-![Electricity](./demo/Temp+Humidchartsc.png)
+<img src="./demo/Temp+Humidchartsc.png" alt="Temperature and Humidity Chart" width="200"/>
 
-### Electricity Comsumption Chart
-![Electricity](./demo/Electricitysc.png)
+### Electricity Consumption Chart
+<img src="./demo/Electricitysc.png" alt="Electricity Consumption Chart" width="200"/>
